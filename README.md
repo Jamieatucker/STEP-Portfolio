@@ -1,13 +1,23 @@
-# Google Student Training in Engineering Program
+# 2020 Google Student Training in Engineering Program (STEP)
 
-This repo contains the projects you'll work on for the first half of STEP.
-This work is based on the [Google Software Product Sprint](https://g.co/softwareproductsprint) program.
+This repo contains Jamie's portfolio and STEP projects. (5/18/20 - 8/7/20)
 
-To get started:
+# Week 1 (5/18/20 - 5/22/20)
 
-- Login to [Google Cloud Shell](https://ssh.cloud.google.com/cloudshell/editor)
-- Clone this repo: `cd; git clone https://github.com/googleinterns/step.git`
-- Open the GitHub setup walkthrough: `teachme ~/step/walkthroughs/week-1-setup/github-setup-walkthrough.md`
-  - If the tutorial panel does not open or display the walkthrough contents, try refreshing the page.
+- No projects during the first week, but completed necessary onboarding trainings to proceed with the STEP Program.
 
-Then follow the on-screen instructions to set up your repo.
+# Week 2 Client-side Web Development (5/25/20 - 5/29/20)
+
+- Built a front end website containing a portfolio about Jamie Tucker.
+
+# Week 3 Server-side Web Development (6/1/20 - 6/5/20)
+
+-
+
+# Week 4 Libraries (6/8/20 - 6/12/20)
+
+-
+
+# Week 5 Test Drive Development (6/15/20 - 6/19/20)
+
+-
