@@ -18,7 +18,7 @@
 function addRandomFact() {
   const facts =
       ['I was born in Orlando, Florida!', 'I have moved three times in my life, from Florida, to Virginia, to Michigan.', 'I have an older brother who recently graduated from Florida A&M University!',
-       'I learned Japanese for two years and high school (and still know how to speak some phrases)!', 'I won an Xbox One S at a local NBA 2K Video Game Tournament in 2017!',
+       'I learned Japanese for two years in high school (and still know how to speak some phrases)!', 'I won an Xbox One S at a local NBA 2K Video Game Tournament in 2017!',
     	'I am a Detroit Lions fan.','I know how to create YouTube Videos using Adobe After Effects.','I played basketball for 10 years, and my favorite team is the Portland Trailblazers.'];
 
   // Pick a random fact.
