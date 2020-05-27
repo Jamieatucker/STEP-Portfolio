@@ -8,6 +8,11 @@
   margin-top: 20px;
 }
 
+#hiddentalent-container{
+    margin-top: 20px;
+    font-style: bold;
+}
+
 body{
     background-color: lightgray;
 }
