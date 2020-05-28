@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Adds a random fact to the page.
+ * Adds a random fact to the home page.
  */
 function addRandomFact() {
   const facts =
@@ -27,4 +27,19 @@ function addRandomFact() {
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
+}
+
+/**
+ * Reveals my hidden talent to the hidden talent page
+ */
+function revealHiddenTalent(){
+    const hiddenTalent = 'Can create music mashups! \n\nThe inspiration came to me from listening to hundreds of music mashups on YouTube. People were mashing vaporwave and hip hop together like it' + 
+    ' was peanut butter and jelly. They were mashing video game soundtracks and pop songs together like mash potatoes and gravy. I was entranced by the musical artistry.' + 
+    ' I have a playlist of over 50 of my favorite music mashups.\n\nI created my first music mashup in late September 2018. I spent weeks using the program Audacity making sure it sounded as' + 
+    ' fluid as possible, with little training going into it. It may not have sounded the best, but I was thrilled to have created a mashup that I wanted, and had sounded coherent.' + 
+    ' The audio file below contains one of my mashups, called "Highest in the Woods Instrumental". Feel free to listen if you would like!';
+
+	// Add it to the page
+    const hiddenTalentContainer = document.getElementById('hiddentalent-container');
+    hiddenTalentContainer.innerText = hiddenTalent;
 }

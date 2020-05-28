@@ -4,8 +4,13 @@
   width: 650px;
 }
 
-#greeting-container {
+#fact-container {
   margin-top: 20px;
+}
+
+#hiddentalent-container{
+    margin-top: 20px;
+    font-style: bold;
 }
 
 body{
