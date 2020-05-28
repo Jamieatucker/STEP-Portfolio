@@ -67,13 +67,13 @@ footer {
 }
 
 h1 {
-    text-shadow: 2px 2px 5px #ce0f3d;
+    text-shadow: 4px 3px 4px #ce0f3d;
 }
 
 img {
-    height: 90%;
+    height: 100%;
     margin-top: 10px;
-    width: 90%;
+    width: 100%;
 }
 
 nav {
