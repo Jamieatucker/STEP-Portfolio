@@ -1,4 +1,6 @@
 #content {
+  background-color: lightgray;
+  border-style: outset;
   margin-left: auto;
   margin-right: auto;
   width: 650px;
@@ -14,5 +16,5 @@
 }
 
 body{
-    background-color: lightgray;
+    background-color: #ce0f3d;
 }
