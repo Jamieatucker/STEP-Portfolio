@@ -28,10 +28,10 @@ function addRandomFact() {
    ];
 
   // Pick a random fact.
-  const fact = facts[Math.floor(Math.random() * facts.length)];
+  let fact = facts[Math.floor(Math.random() * facts.length)];
 
   // Add it to the page.
-  const factContainer = querySelector("#fact-container");
+  const factContainer = document.querySelector('#fact-container')
   factContainer.style.visibility = 'visible';
   factContainer.innerText = fact;
 }
