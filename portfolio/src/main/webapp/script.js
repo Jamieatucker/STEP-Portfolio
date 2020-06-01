@@ -37,6 +37,17 @@ function addRandomFact() {
 }
 
 /**
+ * Adds the data from DataServlet using async/await (the return values are used directly).
+ */
+async function getDataUsingAsyncAwait(){
+    const response = await fetch('/data');
+    const data = await response.text();
+    const dataContainer = document.getElementById('data-container');
+    dataContainer.style.visibility = 'visible';
+    dataContainer.innerHTML = data;
+}
+
+/**
  * Reveals my hidden talent to the hidden talent page
  */
 function revealHiddenTalent(){
