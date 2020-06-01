@@ -9,6 +9,7 @@ This repo contains Jamie's portfolio and STEP projects. (5/18/20 - 8/7/20)
 # Week 2 Client-side Web Development (5/25/20 - 5/29/20)
 
 - Built a front end website containing a portfolio about Jamie Tucker.
+- Implemented HTML, CSS, and JavaScript to implement the features of the site.
 
 # Week 3 Server-side Web Development (6/1/20 - 6/5/20)
 
