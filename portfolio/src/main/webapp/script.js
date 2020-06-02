@@ -47,7 +47,7 @@ async function getDataUsingAsyncAwait(){
     for(i = 0; i < data.length; i++){
         text = data[i];
     }
-    const dataContainer = document.querySelector('#data-container');
+    const dataContainer = document.getElementById('data-container');
     dataContainer.style.visibility = 'visible';
     dataContainer.innerHTML = data;
 }
@@ -69,13 +69,21 @@ function revealHiddenTalent(){
     ' like!';
     
     // Add it to the page
+<<<<<<< HEAD
     const hiddenTalentContainer = document.getElementById('hiddentalent-container');
     hiddenTalentContainer.style.visibility = 'visible';
+=======
+    const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
+    document.querySelector('#hiddentalent-container').style.visibility = 'visible';
+    document.querySelector('#rollsafe').style.visibility = 'visible';
+    document.getElementById('hiddentalent-container').style.visibility = 'visible';
+    document.getElementById('rollsafe').style.visibility = 'visible';
+>>>>>>> e71a3c80584e35eccf6f703c384d3b876c8f778d
     hiddenTalentContainer.innerText = hiddenTalent;
     
     // Add GIF to the page
     document.getElementById('rollsafe').style.visibility = 'visible';
 
     // Add audio file to the page
-    document.getElementById('music').style.visibility = 'visible';
+    document.querySelector('#music').style.visibility = 'visible';
 }
