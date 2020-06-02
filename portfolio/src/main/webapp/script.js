@@ -42,7 +42,7 @@ function addRandomFact() {
 async function getDataUsingAsyncAwait(){
     const response = await fetch('/data');
     const data = await response.text();
-    const dataContainer = document.getElementById('data-container');
+    const dataContainer = document.querySelector('#data-container');
     dataContainer.style.visibility = 'visible';
     dataContainer.innerHTML = data;
 }
