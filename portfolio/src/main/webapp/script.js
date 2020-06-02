@@ -64,7 +64,9 @@ function revealHiddenTalent(){
     ' like!';
     
     // Add it to the page
-    const hiddenTalentContainer = document.getElementById('hiddentalent-container');
+    const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
+    document.querySelector('#hiddentalent-container').style.visibility = 'visible';
+    document.querySelector('#rollsafe').style.visibility = 'visible';
     document.getElementById('hiddentalent-container').style.visibility = 'visible';
     document.getElementById('rollsafe').style.visibility = 'visible';
     hiddenTalentContainer.innerText = hiddenTalent;
