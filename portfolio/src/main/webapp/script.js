@@ -44,14 +44,21 @@ async function getDataUsingAsyncAwait(){
     // Retrieve the data from '/data'
     const response = await fetch('/data');
     const data = await response.json();
-    
-    // Print out the JSON for testing purposes
-    console.log(data);
-
+    var text = "";
+    for(i = 0; i < data.length; i++){
+      text += data[i];
+    }
     // Add the data to the page
-    const dataContainer = document.getElementById('data-container');
+    const dataContainer = document.querySelector('#data-container');
     dataContainer.style.visibility = 'visible';
-    dataContainer.innerText = data;
+    dataContainer.innerText = text;
+}
+
+/**
+ * Hides the comment section.
+ */
+function hideData(){
+    document.querySelector('#data-container').style.visibility = 'hidden';
 }
 
 /**
@@ -71,11 +78,13 @@ function revealHiddenTalent(){
     ' like!';
     
     // Add it to the page
-    const hiddenTalentContainer = document.getElementById('hiddentalent-container');
-    document.getElementById('hiddentalent-container').style.visibility = 'visible';
-    document.getElementById('rollsafe').style.visibility = 'visible';
+    const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
+    hiddenTalentContainer.style.visibility = 'visible';
     hiddenTalentContainer.innerText = hiddenTalent;
+
+    // Add GIF to the page
+    document.querySelector('#rollsafe').style.visibility = 'visible';
     
     // Add audio file to the page
-    document.getElementById('music').style.visibility = 'visible';
+    document.querySelector('#music').style.visibility = 'visible';
 }
