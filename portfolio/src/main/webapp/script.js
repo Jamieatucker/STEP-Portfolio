@@ -13,16 +13,64 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random fact to the home page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function addRandomFact() {
+  const facts = [
+      'I was born in Orlando, Florida!',
+      'I have moved three times in my life, from Florida, to Virginia, to Michigan.',
+      'I have an older brother who recently graduated from Florida A&M University!',
+      'I learned Japanese for two years in high school (and still know how to speak some phrases)!',
+      'I won an Xbox One S at a local NBA 2K Video Game Tournament in 2017!',
+      'I am a Detroit Lions fan.',
+      'I know how to create YouTube Videos using Adobe After Effects.',
+      'I played basketball for 10 years, and my favorite team is the Portland Trailblazers.'
+   ];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  // Pick a random fact.
+  let fact = facts[Math.floor(Math.random() * facts.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const factContainer = document.querySelector('#fact-container')
+  factContainer.style.visibility = 'visible';
+  factContainer.innerText = fact;
+}
+
+/**
+ * Adds the data from DataServlet using async/await (the return values are used directly).
+ */
+async function getDataUsingAsyncAwait(){
+    const response = await fetch('/data');
+    const data = await response.text();
+    const dataContainer = document.querySelector('#data-container');
+    dataContainer.style.visibility = 'visible';
+    dataContainer.innerHTML = data;
+}
+
+/**
+ * Reveals my hidden talent to the hidden talent page
+ */
+function revealHiddenTalent(){
+    const hiddenTalent = 'Can create music mashups! \n\nThe inspiration came to me from listening to hundreds of music mashups on' + 
+    ' YouTube. People were mashing vaporwave and hip hop together like it was peanut butter and' +  
+    ' jelly. They were mashing video game soundtracks and pop songs together like mash' + 
+    ' potatoes and gravy. I was entranced by the musical artistry. I have a playlist of over 50 of my favorite music mashups.' + 
+    ' \n\nI created my first music mashup in late September 2018. I spent weeks using' + 
+    ' the program Audacity making sure it sounded as fluid as possible, with' + 
+    ' little training going into it. It may not have sounded the best, but I was thrilled' + 
+    ' to have created a mashup that I wanted, and had sounded coherent. The audio' + 
+    ' file below contains one of my mashups,' + 
+    ' called "Highest in the Woods Instrumental". Feel free to listen if you would' + 
+    ' like!';
+    
+    // Add it to the page
+    const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
+    document.querySelector('#hiddentalent-container').style.visibility = 'visible';
+    document.querySelector('#rollsafe').style.visibility = 'visible';
+    document.getElementById('hiddentalent-container').style.visibility = 'visible';
+    document.getElementById('rollsafe').style.visibility = 'visible';
+    hiddenTalentContainer.innerText = hiddenTalent;
+    
+    // Add audio file to the page
+    document.querySelector('#music').style.visibility = 'visible';
 }

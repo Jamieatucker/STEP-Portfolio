@@ -1,9 +1,174 @@
+/* IDs */
+
 #content {
+  background-color: #b0b7bc;
+  border-radius: 25px;
+  border-style: outset;
+  box-shadow: 9px 9px #666;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
   width: 650px;
+  word-spacing: 3px;
 }
 
-#greeting-container {
+#data-container {
+  border: 15px;
+  border-style: groove;
+  margin: 10px;
+  padding: 30px;
+  text-align: center;
+  visibility: hidden;
+}
+
+#fact-container {
+  border: 15px;
+  border-style: groove;
+  margin: 10px;
+  padding: 30px;
+  text-align: center;
+  visibility: hidden;
+}
+
+#headshot {
+  border: 15px;
+  border-color: #666;
+  border-style: groove;
+  width: 70%;
+}
+
+#hiddentalent-container {
+  border: 15px;
+  border-style: groove;
   margin-top: 20px;
+  visibility: hidden;
+}
+
+#music {
+  visibility: hidden;
+}
+
+#nxpage {
+  border: 4px;
+  border-color: #666;
+  border-style: groove;
+  margin-left: 65px;
+  margin-right: auto;
+  text-align: center;
+}
+
+#pvpage {
+  border: 4px;
+  border-color: #666;
+  border-style: groove;
+  margin-left: auto;
+  margin-right: 65px;
+  text-align: center;
+}
+
+#rollsafe {
+  border: 15px;
+  border-color: #666;
+  border-style: groove;
+  width: 65%;
+  visibility: hidden;
+}
+
+#sportphoto {
+  border: 15px;
+  border-color: #666;
+  border-style: groove;
+  width: 65%;
+}
+
+/* Classes */
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* Main */
+
+audio {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+body {
+  background-color: #ce0f3d;
+  background-image: url(/images/osubackground.jpg);
+}
+
+figure {
+  border: 15px;
+  border-color: #666;
+  border-style: groove;
+  margin: 25px;
+}
+
+figcaption {
+  border: 7px;
+  border-style: groove;
+  font-style: italic;
+  margin: 10px;
+}
+
+footer {
+  font-style: italic;
+}
+
+h1 {
+  text-shadow: 4px 3px 4px #ce0f3d;
+}
+
+img {
+  height: 100%;
+  margin-top: 10px;
+  width: 100%;
+}
+
+nav {
+  background-color: #ce0f3d;
+  color: #fff;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  text-align: center;
+  word-spacing: 1px;
+}
+
+p {
+  border: 15px;
+  border-style: groove;
+  margin: 10px;
+  padding: 30px;
+  text-align: center;
+}
+
+ul {
+  border: 15px;
+  border-style: groove;
+  list-style-type: none;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Links */
+
+a:active {
+  background-color: #ce0f3d;
+}
+
+a:visited {
+  color: #fff;
+}
+
+a:hover {
+  background-color: #8d0a29;
 }
