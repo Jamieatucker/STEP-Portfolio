@@ -69,16 +69,8 @@ function revealHiddenTalent(){
     ' like!';
     
     // Add it to the page
-<<<<<<< HEAD
-    const hiddenTalentContainer = document.getElementById('hiddentalent-container');
-    hiddenTalentContainer.style.visibility = 'visible';
-=======
     const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
-    document.querySelector('#hiddentalent-container').style.visibility = 'visible';
-    document.querySelector('#rollsafe').style.visibility = 'visible';
-    document.getElementById('hiddentalent-container').style.visibility = 'visible';
-    document.getElementById('rollsafe').style.visibility = 'visible';
->>>>>>> e71a3c80584e35eccf6f703c384d3b876c8f778d
+    hiddenTalentContainer.style.visibility = 'visible';
     hiddenTalentContainer.innerText = hiddenTalent;
     
     // Add GIF to the page
