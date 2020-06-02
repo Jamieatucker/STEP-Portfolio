@@ -40,9 +40,14 @@ function addRandomFact() {
  * Adds the data from DataServlet using async/await (the return values are used directly).
  */
 async function getDataUsingAsyncAwait(){
+    // Retrieve the data from '/data'
     const response = await fetch('/data');
-    const data = await response.text();
-    const dataContainer = document.getElementById('data-container');
+    const data = await response.json();
+    var text = "";
+    for(i = 0; i < data.length; i++){
+        text = data[i];
+    }
+    const dataContainer = document.querySelector('#data-container');
     dataContainer.style.visibility = 'visible';
     dataContainer.innerHTML = data;
 }
@@ -65,10 +70,12 @@ function revealHiddenTalent(){
     
     // Add it to the page
     const hiddenTalentContainer = document.getElementById('hiddentalent-container');
-    document.getElementById('hiddentalent-container').style.visibility = 'visible';
-    document.getElementById('rollsafe').style.visibility = 'visible';
+    hiddenTalentContainer.style.visibility = 'visible';
     hiddenTalentContainer.innerText = hiddenTalent;
     
+    // Add GIF to the page
+    document.getElementById('rollsafe').style.visibility = 'visible';
+
     // Add audio file to the page
     document.getElementById('music').style.visibility = 'visible';
 }
