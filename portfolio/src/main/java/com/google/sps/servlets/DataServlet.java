@@ -48,10 +48,13 @@ public class DataServlet extends HttpServlet {
     String name = getParameter(request, "name", "");
 	String email = getParameter(request, "email", "");
     String text = getParameter(request, "comment", "");
+    
+    // Convert parameters to JSON (May work on this feature later)
+	String json = convertToJson(name,email,text);
 
     // Add input to ArrayList 
     if(!text.equals("")){
-      comments.add(text);
+      comments.add(text + "\n"); 
     }
 
     // Send the HTML as the response
@@ -61,9 +64,23 @@ public class DataServlet extends HttpServlet {
     }
 
     // Send user to new page once comment is submitted
-    response.sendRedirect("/hiddentalent.html");
+    response.sendRedirect("/index.html");
   }
 
+  private String convertToJson(String name, String email, String text){
+    String json = "{";
+    json += "\"Name\": ";
+    json += "\"" + name + "\"";
+    json += ", ";
+    json += "\"Email\": ";
+    json += "\"" + email + "\"";
+    json += ", ";
+    json += "\"Comment\": ";
+    json += text;
+    json += "}";
+    return json;
+  }
+  
   /**
    * Convert Data instance into a JSON string using GSON. Note: We had to add a GSON library dependency to the pom.xml file.
    */
