@@ -16,6 +16,7 @@
  * Adds a random fact to the home page.
  */
 function addRandomFact() {
+  // Some hard-coded facts about me
   const facts = [
       'I was born in Orlando, Florida!',
       'I have moved three times in my life, from Florida, to Virginia, to Michigan.',
@@ -27,28 +28,34 @@ function addRandomFact() {
       'I played basketball for 10 years, and my favorite team is the Portland Trailblazers.'
    ];
 
-  // Pick a random fact.
+  // Pick a random fact
   let fact = facts[Math.floor(Math.random() * facts.length)];
 
-  // Add it to the page.
+  // Add it to the page
   const factContainer = document.querySelector('#fact-container')
   factContainer.style.visibility = 'visible';
   factContainer.innerText = fact;
 }
 
 /**
- * Adds the data from DataServlet using async/await (the return values are used directly).
+ * Adds the data from DataServlet using async/await (the return values are used directly), and converts it to a JSON.
  */
 async function getDataUsingAsyncAwait(){
+    // Retrieve the data from '/data'
     const response = await fetch('/data');
-    const data = await response.text();
+    const data = await response.json();
+    
+    // Print out the JSON for testing purposes
+    console.log(data);
+
+    // Add the data to the page
     const dataContainer = document.getElementById('data-container');
     dataContainer.style.visibility = 'visible';
-    dataContainer.innerHTML = data;
+    dataContainer.innerText = data;
 }
 
 /**
- * Reveals my hidden talent to the hidden talent page
+ * Reveals my hidden talent to the hidden talent page.
  */
 function revealHiddenTalent(){
     const hiddenTalent = 'Can create music mashups! \n\nThe inspiration came to me from listening to hundreds of music mashups on' + 
