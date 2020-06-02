@@ -72,5 +72,5 @@ function revealHiddenTalent(){
     hiddenTalentContainer.innerText = hiddenTalent;
     
     // Add audio file to the page
-    document.getElementById('music').style.visibility = 'visible';
+    document.querySelector('#music').style.visibility = 'visible';
 }
