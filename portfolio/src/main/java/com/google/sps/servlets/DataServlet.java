@@ -29,13 +29,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private ArrayList<String> comments = new ArrayList<String>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Few hard-coded comments for testing purposes
-    ArrayList<String> comments = new ArrayList<String>();
-    comments.add("This website looks so cool!");
-    comments.add("\nI love the mashup on the last page! It is well made!");
-    comments.add("\nWow, Ohio State is bad. Go Wolverines (Boo).");
 
     // Convert the ArrayList to JSON
     String json = convertToJsonUsingGson(comments);
@@ -47,7 +44,24 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	ArrayList<String> data = new ArrayList<String>();
+	// Get the input from the form
+    String name = getParameter(request, "name", "");
+	String email = getParameter(request, "email", "");
+    String text = getParameter(request, "comment", "");
+
+    // Add input to ArrayList 
+    if(!text.equals("")){
+      comments.add(text);
+    }
+
+    // Send the HTML as the response
+    response.setContentType("text/html;");
+    for(int i = 0; i < comments.size(); i++){
+      response.getWriter().println(comments.get(i));
+    }
+
+    // Send user to new page once comment is submitted
+    response.sendRedirect("/hiddentalent.html");
   }
 
   /**
@@ -57,6 +71,18 @@ public class DataServlet extends HttpServlet {
 	Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the user/client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue){
+	String value = request.getParameter(name);
+    if(value == null){
+      return defaultValue;
+    }
+    return value;
   }
 
 }
