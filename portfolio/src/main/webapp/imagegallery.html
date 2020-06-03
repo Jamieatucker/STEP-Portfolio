@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0">
     <title>My Favorite Images</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
   </head>
   <body>
     <div id="content">
@@ -41,6 +42,23 @@
         <img src="/images/jtcompsci.jpg" alt="Picture of me with computers in the background." class="center">
         <figcaption>A Persona of Me Encapuslated in this Picture.</figcaption>
       </figure>
+      <form action="/data" method="POST">
+        <p><b>Want to Leave a Comment?</b>
+        <br/>
+        <label for="name">Name:</label>
+        <input type="text" name="name">
+        <br/>
+        <label for="email">Email:</label>
+        <input type="email" name="email">
+        <br/>
+        <label for="comment">Comment:</label>
+        <textarea name="comment"></textarea>
+        <br/><br/>
+        <input type="submit" />
+      </form>
+      <button onclick="getDataUsingAsyncAwait()">See Comments</button>
+      <button onclick="hideData()">Hide Comments</button>
+      <div id="data-container"></div>
       <footer>
         <a href="index.html" id="pvpage"> Previous</a>No copyright infringement is intended. <a href="hiddentalent.html" id="nxpage"> Next </a>
       </footer>
