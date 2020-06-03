@@ -14,19 +14,92 @@
 
 package com.google.sps.servlets;
 
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+
+/** 
+ * Servlet that returns some example content. TODO: modify this file to handle comments data 
+ */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private ArrayList<String> comments = new ArrayList<String>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Jamie!</h1>");
+
+    // Convert the ArrayList to JSON
+    String json = convertToJsonUsingGson(comments);
+    
+    // Send the JSON as the response
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
   }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// Get the input from the form
+    String name = getParameter(request, "name", "");
+	String email = getParameter(request, "email", "");
+    String text = getParameter(request, "comment", "");
+    
+    // Convert parameters to JSON (May work on this feature later)
+	String json = convertToJson(name,email,text);
+
+    // Add input to ArrayList 
+    if(!text.equals("")){
+      comments.add(text + "\n"); 
+    }
+
+    // Send the HTML as the response
+    response.setContentType("text/html;");
+    for(int i = 0; i < comments.size(); i++){
+      response.getWriter().println(comments.get(i));
+    }
+
+    // Send user to new page once comment is submitted
+    response.sendRedirect("/index.html");
+  }
+
+  private String convertToJson(String name, String email, String text){
+    String json = "{";
+    json += "\"Name\": ";
+    json += "\"" + name + "\"";
+    json += ", ";
+    json += "\"Email\": ";
+    json += "\"" + email + "\"";
+    json += ", ";
+    json += "\"Comment\": ";
+    json += text;
+    json += "}";
+    return json;
+  }
+  
+  /**
+   * Convert Data instance into a JSON string using GSON. Note: We had to add a GSON library dependency to the pom.xml file.
+   */
+  private String convertToJsonUsingGson(ArrayList comments){
+	Gson gson = new Gson();
+    String json = gson.toJson(comments);
+    return json;
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the user/client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue){
+	String value = request.getParameter(name);
+    if(value == null){
+      return defaultValue;
+    }
+    return value;
+  }
+
 }

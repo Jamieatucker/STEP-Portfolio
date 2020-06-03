@@ -18,8 +18,6 @@
           <a href="https://github.com/Jamieatucker">Github</a>
         </nav>
         <img src="/images/My Headshot.jpeg" alt="A Picture of Jamie Tucker." class="center" id="headshot">
-        <button onclick="getDataUsingAsyncAwait()">See Secret Message...</button>
-        <div id="data-container"></div>
         <p>Hello! My name is Jamie Tucker (Pronouns: he/him/his) and I am a rising Sophomore at The Ohio State University.
           I'm currently majoring in Computer Science Engineering, 
           learning the necessary skills to become a software engineer.
@@ -51,6 +49,23 @@
           I may be having, while gaining more muscle mass for myself.
         <p>Click <button onclick="addRandomFact()">here</button> to see random facts about me!
         <div id="fact-container"></div>
+        <form action="/data" method="POST">
+          <p><b>Want to Leave a Comment?</b>
+          <br/>
+          <label for="name">Name:</label>
+          <input type="text" name="name">
+          <br/>
+          <label for="email">Email:</label>
+          <input type="email" name="email">
+          <br/>
+          <label for="comment">Comment:</label>
+          <textarea name="comment"></textarea>
+          <br/><br/>
+          <input type="submit" />
+        </form>
+        <button onclick="getDataUsingAsyncAwait()">See Comments</button>
+        <button onclick="hideData()">Hide Comments</button>
+        <div id="data-container"></div>
         <footer>
           No copyright infringement is intended. <a href="imagegallery.html" id="nxpage"> Next </a>
         </footer>
