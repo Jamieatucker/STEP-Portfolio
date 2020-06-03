@@ -85,6 +85,9 @@ function revealHiddenTalent(){
     // Add GIF to the page
     document.querySelector('#rollsafe').style.visibility = 'visible';
     
+    // Add GIF to the page
+    document.getElementById('rollsafe').style.visibility = 'visible';
+
     // Add audio file to the page
     document.querySelector('#music').style.visibility = 'visible';
 }
