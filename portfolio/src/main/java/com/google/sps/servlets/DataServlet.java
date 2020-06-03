@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +52,16 @@ public class DataServlet extends HttpServlet {
 	String email = getParameter(request, "email", "");
     String text = getParameter(request, "comment", "");
     
+    // Create an entity and set its properties
+    Entity dataEntity = new Entity("Data");
+    dataEntity.setProperty("Comment", text);
+    dataEntity.setProperty("Email", email);
+    dataEntity.setProperty("Name", name);
+
+    // Create a space to store the entities
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(dataEntity);
+
     // Convert parameters to JSON (May work on this feature later)
 	String json = convertToJson(name,email,text);
 
