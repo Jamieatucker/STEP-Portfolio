@@ -41,16 +41,16 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Prepare the Query to store the entity you want to load
-    Query query = new Query("Feedback").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Data");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	PreparedQuery results = datastore.prepare(query);
 
 	// Loop over the entities to store the feedback in a list
     List<Feedback> statements = new ArrayList<>();
 	for (Entity entity : results.asIterable()) {
-      String name = (String) entity.getProperty("name");
-      String email = (String) entity.getProperty("email");
-      String comment = (String) entity.getProperty("comment");
+      String name = (String) entity.getProperty("Name");
+      String email = (String) entity.getProperty("Email");
+      String comment = (String) entity.getProperty("Comment");
 	  
       Feedback feedback = new Feedback(name, email, comment);
       statements.add(feedback);
