@@ -49,42 +49,6 @@ public class Comments extends HttpServlet {
   }
 
   private ArrayList<String> comments = new ArrayList<String>();
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the body of the HTTP Post
-    String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-    System.out.println(body);
-
-    Gson gson = new Gson();
-    Comment target = gson.fromJson(body, Comment.class);
-
-    // Get the input from the form
-    String name = target.name;
-    String email = target.email;
-    String comment = target.comment;
-    long timestamp = System.currentTimeMillis();
-
-    //String name = getParameter(request, "name", "");
-    //String email = getParameter(request, "email", "");
-    //String comment = getParameter(request, "comment", "");
-    //long timestamp = System.currentTimeMillis();
-
-    // Create an entity and set its properties
-    Entity dataEntity = new Entity("Data");
-    dataEntity.setProperty("Name", name);
-    dataEntity.setProperty("Email", email);
-    dataEntity.setProperty("Comment", comment);
-    dataEntity.setProperty("Timestamp", timestamp);
-
-    // Create a space to store the entities
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(dataEntity);
-
-
-    // Send the JSON as the response
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(dataEntity));
-  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -121,6 +85,38 @@ public class Comments extends HttpServlet {
       response.setContentType("application/json;");
       response.getWriter().println(gson.toJson(statements));
     }
+  }
+  
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the body of the HTTP Post
+    String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+    System.out.println(body);
+
+    Gson gson = new Gson();
+    Comment target = gson.fromJson(body, Comment.class);
+
+    // Get the input from the form
+    String name = target.name;
+    String email = target.email;
+    String comment = target.comment;
+    long timestamp = System.currentTimeMillis();
+
+    // Create an entity and set its properties
+    Entity dataEntity = new Entity("Data");
+    dataEntity.setProperty("Name", name);
+    dataEntity.setProperty("Email", email);
+    dataEntity.setProperty("Comment", comment);
+    dataEntity.setProperty("Timestamp", timestamp);
+
+    // Create a space to store the entities
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(dataEntity);
+
+
+    // Send the JSON as the response
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(dataEntity));
   }
 
   private String convertToJson(String name, String email, String comment, long timestamp){
