@@ -41,8 +41,8 @@ function addRandomFact() {
  * Adds the data from DataServlet using async/await (the return values are used directly), and converts it to a JSON.
  */
 async function getDataUsingAsyncAwait(){
-    // Retrieve the data from '/data'
-    const response = await fetch('/data');
+    // Retrieve the data from '/comments'
+    const response = await fetch('/comments?numComments=' + document.querySelector('#numComments').value);
     const data = await response.json();
     var text = "";
     for(i = 0; i < data.length; i++){
@@ -87,4 +87,28 @@ function revealHiddenTalent(){
 
     // Add audio file to the page
     document.querySelector('#music').style.visibility = 'visible';
+}
+
+/**
+ * Submits the comment to the '/comment' servlet.
+ */
+async function submitComment(){
+  // Retrieve the data from '/comments'
+  const data = {
+    'name': document.querySelector('#username').value,
+    'email': document.querySelector('#email').value,
+    'comment': document.querySelector('#comment').value,
+  };
+  const response = await fetch('/comments', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+
+  // Set the id's to empty strings so the next data can be itself
+  document.querySelector('#username').value = "";
+  document.querySelector('#email').value = "";
+  document.querySelector('#comment').value = "";
+
+  // Put the text on the page
+  getDataUsingAsyncAwait();
 }
