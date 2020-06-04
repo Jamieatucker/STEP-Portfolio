@@ -41,7 +41,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Prepare the Query to store the entity you want to load
-    Query query = new Query("Data");
+    Query query = new Query("Data").addSort("Timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	PreparedQuery results = datastore.prepare(query);
 
@@ -51,8 +51,9 @@ public class DataServlet extends HttpServlet {
       String name = (String) entity.getProperty("Name");
       String email = (String) entity.getProperty("Email");
       String comment = (String) entity.getProperty("Comment");
+      long timestamp = (long) entity.getProperty("Timestamp");
 	  
-      Feedback feedback = new Feedback(name, email, comment);
+      Feedback feedback = new Feedback(name, email, comment, timestamp);
       statements.add(feedback);
     }
 
@@ -68,19 +69,21 @@ public class DataServlet extends HttpServlet {
     String name = getParameter(request, "name", "");
     String email = getParameter(request, "email", "");
     String comment = getParameter(request, "comment", "");
+    long timestamp = System.currentTimeMillis();
     
     // Create an entity and set its properties
     Entity dataEntity = new Entity("Data");
     dataEntity.setProperty("Name", name);
     dataEntity.setProperty("Email", email);
     dataEntity.setProperty("Comment", comment);
+    dataEntity.setProperty("Timestamp", timestamp);
 
     // Create a space to store the entities
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(dataEntity);
 
     // Convert parameters to JSON (May work on this feature later)
-	String json = convertToJson(name,email,comment);
+	String json = convertToJson(name,email,comment,timestamp);
 
     // Add input to ArrayList 
     if(!comment.equals("")){
@@ -97,7 +100,7 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
-  private String convertToJson(String name, String email, String comment){
+  private String convertToJson(String name, String email, String comment, long timestamp){
     String json = "{";
     json += "\"Name\": ";
     json += "\"" + name + "\"";
@@ -107,6 +110,8 @@ public class DataServlet extends HttpServlet {
     json += ", ";
     json += "\"Comment\": ";
     json += comment;
+    json += "\"Timestamp\": ";
+    json += timestamp;
     json += "}";
     return json;
   }
