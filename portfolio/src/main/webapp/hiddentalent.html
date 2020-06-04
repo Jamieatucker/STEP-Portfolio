@@ -25,6 +25,23 @@
         <source src="/audio/Highest in the Woods Instrumental.wav">
         Your browser does not support the audio tag.
       </audio>
+      <form action="/data" method="POST">
+        <p><b>Want to Leave a Comment?</b>
+        <br/>
+        <label for="name">Name:</label>
+        <input type="text" name="name">
+        <br/>
+        <label for="email">Email:</label>
+        <input type="email" name="email">
+        <br/>
+        <label for="comment">Comment:</label>
+        <textarea name="comment"></textarea>
+        <br/><br/>
+        <input type="submit" />
+      </form>
+      <button onclick="getDataUsingAsyncAwait()">See Comments</button>
+      <button onclick="hideData()">Hide Comments</button>
+      <div id="data-container"></div>
       <footer>
         <a href="imagegallery.html" id="pvpage"> Previous</a>No copyright infringement is intended.
       </footer>

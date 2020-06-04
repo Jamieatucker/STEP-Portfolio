@@ -16,6 +16,7 @@
  * Adds a random fact to the home page.
  */
 function addRandomFact() {
+  // Some hard-coded facts about me
   const facts = [
       'I was born in Orlando, Florida!',
       'I have moved three times in my life, from Florida, to Virginia, to Michigan.',
@@ -27,28 +28,43 @@ function addRandomFact() {
       'I played basketball for 10 years, and my favorite team is the Portland Trailblazers.'
    ];
 
-  // Pick a random fact.
+  // Pick a random fact
   let fact = facts[Math.floor(Math.random() * facts.length)];
 
-  // Add it to the page.
+  // Add it to the page
   const factContainer = document.querySelector('#fact-container')
   factContainer.style.visibility = 'visible';
   factContainer.innerText = fact;
 }
 
 /**
- * Adds the data from DataServlet using async/await (the return values are used directly).
+ * Adds the data from DataServlet using async/await (the return values are used directly), and converts it to a JSON.
  */
 async function getDataUsingAsyncAwait(){
+    // Retrieve the data from '/data'
     const response = await fetch('/data');
-    const data = await response.text();
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    var text = "";
+    for(i = 0; i < data.length; i++){
+      text += data[i].name + " " + data[i].email + " " + data[i].comment + "\n";
+    }
+    // Add the data to the page
     const dataContainer = document.querySelector('#data-container');
     dataContainer.style.visibility = 'visible';
-    dataContainer.innerHTML = data;
+    dataContainer.innerText = text;
 }
 
 /**
- * Reveals my hidden talent to the hidden talent page
+ * Hides the comment section.
+ */
+function hideData(){
+    document.querySelector('#data-container').style.visibility = 'hidden';
+}
+
+/**
+ * Reveals my hidden talent to the hidden talent page.
  */
 function revealHiddenTalent(){
     const hiddenTalent = 'Can create music mashups! \n\nThe inspiration came to me from listening to hundreds of music mashups on' + 
@@ -65,12 +81,12 @@ function revealHiddenTalent(){
     
     // Add it to the page
     const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
-    document.querySelector('#hiddentalent-container').style.visibility = 'visible';
-    document.querySelector('#rollsafe').style.visibility = 'visible';
-    document.getElementById('hiddentalent-container').style.visibility = 'visible';
-    document.getElementById('rollsafe').style.visibility = 'visible';
+    hiddenTalentContainer.style.visibility = 'visible';
     hiddenTalentContainer.innerText = hiddenTalent;
-    
+
+    // Add GIF to the page
+    document.querySelector('#rollsafe').style.visibility = 'visible';
+
     // Add audio file to the page
     document.querySelector('#music').style.visibility = 'visible';
 }
