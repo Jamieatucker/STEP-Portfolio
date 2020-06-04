@@ -14,17 +14,24 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.sps.data.Feedback;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /** 
- * Servlet that returns some example content. TODO: modify this file to handle comments data 
+ * Servlet that returns some example content.
  */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
@@ -33,28 +40,51 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Prepare the Query to store the entity you want to load
+    Query query = new Query("Data");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	PreparedQuery results = datastore.prepare(query);
 
-    // Convert the ArrayList to JSON
-    String json = convertToJsonUsingGson(comments);
-    
+	// Loop over the entities to store the feedback in a list
+    List<Feedback> statements = new ArrayList<>();
+	for (Entity entity : results.asIterable()) {
+      String name = (String) entity.getProperty("Name");
+      String email = (String) entity.getProperty("Email");
+      String comment = (String) entity.getProperty("Comment");
+	  
+      Feedback feedback = new Feedback(name, email, comment);
+      statements.add(feedback);
+    }
+
     // Send the JSON as the response
+    Gson gson = new Gson();
     response.setContentType("application/json;");
-    response.getWriter().println(json);
+    response.getWriter().println(gson.toJson(statements));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	// Get the input from the form
+    // Get the input from the form
     String name = getParameter(request, "name", "");
-	String email = getParameter(request, "email", "");
-    String text = getParameter(request, "comment", "");
+    String email = getParameter(request, "email", "");
+    String comment = getParameter(request, "comment", "");
     
+    // Create an entity and set its properties
+    Entity dataEntity = new Entity("Data");
+    dataEntity.setProperty("Name", name);
+    dataEntity.setProperty("Email", email);
+    dataEntity.setProperty("Comment", comment);
+
+    // Create a space to store the entities
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(dataEntity);
+
     // Convert parameters to JSON (May work on this feature later)
-	String json = convertToJson(name,email,text);
+	String json = convertToJson(name,email,comment);
 
     // Add input to ArrayList 
-    if(!text.equals("")){
-      comments.add(text + "\n"); 
+    if(!comment.equals("")){
+      comments.add(comment + "\n"); 
     }
 
     // Send the HTML as the response
@@ -67,7 +97,7 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
-  private String convertToJson(String name, String email, String text){
+  private String convertToJson(String name, String email, String comment){
     String json = "{";
     json += "\"Name\": ";
     json += "\"" + name + "\"";
@@ -76,7 +106,7 @@ public class DataServlet extends HttpServlet {
     json += "\"" + email + "\"";
     json += ", ";
     json += "\"Comment\": ";
-    json += text;
+    json += comment;
     json += "}";
     return json;
   }

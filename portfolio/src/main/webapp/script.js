@@ -43,10 +43,12 @@ function addRandomFact() {
 async function getDataUsingAsyncAwait(){
     // Retrieve the data from '/data'
     const response = await fetch('/data');
+    console.log(response);
     const data = await response.json();
+    console.log(data);
     var text = "";
     for(i = 0; i < data.length; i++){
-      text += data[i];
+      text += data[i].name + " " + data[i].email + " " + data[i].comment + "\n";
     }
     // Add the data to the page
     const dataContainer = document.querySelector('#data-container');
@@ -84,9 +86,6 @@ function revealHiddenTalent(){
 
     // Add GIF to the page
     document.querySelector('#rollsafe').style.visibility = 'visible';
-    
-    // Add GIF to the page
-    document.getElementById('rollsafe').style.visibility = 'visible';
 
     // Add audio file to the page
     document.querySelector('#music').style.visibility = 'visible';
