@@ -28,4 +28,8 @@ public final class Feedback {
     this.comment = comment;
     this.timestamp = timestamp;
   }
+
+  public String getComment(){
+    return this.comment; 
+  }
 }
