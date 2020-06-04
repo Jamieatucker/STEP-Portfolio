@@ -43,11 +43,12 @@ function addRandomFact() {
 async function getDataUsingAsyncAwait(){
     // Retrieve the data from '/data'
     const response = await fetch('/data');
+    console.log(response);
     const data = await response.json();
     console.log(data);
     var text = "";
     for(i = 0; i < data.length; i++){
-      text += data[i].comment;
+      text += data[i].name + " " + data[i].email + " " + data[i].comment + "\n";
     }
     // Add the data to the page
     const dataContainer = document.querySelector('#data-container');
