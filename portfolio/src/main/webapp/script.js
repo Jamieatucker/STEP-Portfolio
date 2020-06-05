@@ -38,55 +38,71 @@ function addRandomFact() {
 }
 
 /**
- * Adds the data from DataServlet using async/await (the return values are used directly), and converts it to a JSON.
+ * Deletes all the comments from the 'Comments' servlet.
+ */
+async function deleteDataUsingAsyncAwait(){
+  // Retrieve the data from '/comments' and delete the comments from the admin page
+  const response = await fetch('/comments', {
+    method: 'DELETE',
+  });
+  
+  // Delete the data from the page
+  const dataContainer = document.querySelector('#data-container');
+  dataContainer.style.visibility = 'hidden';
+  dataContainer.innerHTML = data;
+}
+
+/**
+ * Adds the data from the Comments servlet using async/await (the return values are used directly), and converts it to a JSON.
  */
 async function getDataUsingAsyncAwait(){
-    // Retrieve the data from '/comments'
-    const response = await fetch('/comments?numComments=' + document.querySelector('#numComments').value);
-    const data = await response.json();
-    var text = "";
-    for(i = 0; i < data.length; i++){
-      text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br/>";
-    }
-    // Add the data to the page
-    const dataContainer = document.querySelector('#data-container');
-    dataContainer.style.visibility = 'visible';
-    dataContainer.innerHTML = text;
+  // Retrieve the data from '/comments'
+  const response = await fetch('/comments?numComments=' + document.querySelector('#numComments').value);
+  const data = await response.json();
+  var text = "";
+  for(i = 0; i < data.length; i++){
+    text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br/>";
+  }
+
+  // Add the data to the page
+  const dataContainer = document.querySelector('#data-container');
+  dataContainer.style.visibility = 'visible';
+  dataContainer.innerHTML = text;
 }
 
 /**
  * Hides the comment section.
  */
 function hideData(){
-    document.querySelector('#data-container').style.visibility = 'hidden';
+  document.querySelector('#data-container').style.visibility = 'hidden';
 }
 
 /**
  * Reveals my hidden talent to the hidden talent page.
  */
 function revealHiddenTalent(){
-    const hiddenTalent = 'Can create music mashups! \n\nThe inspiration came to me from listening to hundreds of music mashups on' + 
-    ' YouTube. People were mashing vaporwave and hip hop together like it was peanut butter and' +  
-    ' jelly. They were mashing video game soundtracks and pop songs together like mash' + 
-    ' potatoes and gravy. I was entranced by the musical artistry. I have a playlist of over 50 of my favorite music mashups.' + 
-    ' \n\nI created my first music mashup in late September 2018. I spent weeks using' + 
-    ' the program Audacity making sure it sounded as fluid as possible, with' + 
-    ' little training going into it. It may not have sounded the best, but I was thrilled' + 
-    ' to have created a mashup that I wanted, and had sounded coherent. The audio' + 
-    ' file below contains one of my mashups,' + 
-    ' called "Highest in the Woods Instrumental". Feel free to listen if you would' + 
-    ' like!';
+  const hiddenTalent = 'Can create music mashups! \n\nThe inspiration came to me from listening to hundreds of music mashups on' + 
+  ' YouTube. People were mashing vaporwave and hip hop together like it was peanut butter and' +  
+  ' jelly. They were mashing video game soundtracks and pop songs together like mash' + 
+  ' potatoes and gravy. I was entranced by the musical artistry. I have a playlist of over 50 of my favorite music mashups.' + 
+  ' \n\nI created my first music mashup in late September 2018. I spent weeks using' + 
+  ' the program Audacity making sure it sounded as fluid as possible, with' + 
+  ' little training going into it. It may not have sounded the best, but I was thrilled' + 
+  ' to have created a mashup that I wanted, and had sounded coherent. The audio' + 
+  ' file below contains one of my mashups,' + 
+  ' called "Highest in the Woods Instrumental". Feel free to listen if you would' + 
+  ' like!';
     
-    // Add it to the page
-    const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
-    hiddenTalentContainer.style.visibility = 'visible';
-    hiddenTalentContainer.innerText = hiddenTalent;
+  // Add it to the page
+  const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
+  hiddenTalentContainer.style.visibility = 'visible';
+  hiddenTalentContainer.innerText = hiddenTalent;
 
-    // Add GIF to the page
-    document.querySelector('#rollsafe').style.visibility = 'visible';
+  // Add GIF to the page
+  document.querySelector('#rollsafe').style.visibility = 'visible';
 
-    // Add audio file to the page
-    document.querySelector('#music').style.visibility = 'visible';
+  // Add audio file to the page
+  document.querySelector('#music').style.visibility = 'visible';
 }
 
 /**
