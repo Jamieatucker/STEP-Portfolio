@@ -17,6 +17,8 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -48,7 +50,18 @@ public class Comments extends HttpServlet {
     }
   }
 
-  private ArrayList<String> comments = new ArrayList<String>();
+  @Override
+  public void doDelete(HttpServletRequest request, HttpServletResponse response){
+    // Prepare the Query to store the entity you want to load
+    Query query = new Query("Data");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	PreparedQuery results = datastore.prepare(query);
+
+    // Delete all the comments if the "Delete Comments" button is pressed
+      for(Entity entity : results.asIterable()){
+        datastore.delete(entity.getKey());
+      }
+    }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,7 +88,7 @@ public class Comments extends HttpServlet {
         String email = (String) entity.getProperty("Email");
         String comment = (String) entity.getProperty("Comment");
         long timestamp = (long) entity.getProperty("Timestamp");
-	  
+	    
         Feedback feedback = new Feedback(name, email, comment, timestamp);
         statements.add(feedback);
         userChoice--;
@@ -89,6 +102,11 @@ public class Comments extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Prepare the Query to store the entity you want to load
+    Query query = new Query("Data").addSort("Timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	PreparedQuery results = datastore.prepare(query);
+    
     // Get the body of the HTTP Post
     String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
     System.out.println(body);
@@ -109,10 +127,8 @@ public class Comments extends HttpServlet {
     dataEntity.setProperty("Comment", comment);
     dataEntity.setProperty("Timestamp", timestamp);
 
-    // Create a space to store the entities
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // Store the entities
     datastore.put(dataEntity);
-
 
     // Send the JSON as the response
     response.setContentType("application/json;");
