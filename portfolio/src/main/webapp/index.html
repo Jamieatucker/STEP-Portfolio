@@ -49,6 +49,9 @@
           I may be having, while gaining more muscle mass for myself.
         <p>Click <button onclick="addRandomFact()">here</button> to see random facts about me!
         <div id="fact-container"></div>
+        <nav id="divider">
+          <li>_
+        </nav>
         <p><b>Want to Leave a Comment?</b>
         <br/>
         <label for="name">Name:</label>
@@ -61,13 +64,14 @@
         <textarea id="comment" name="comment"></textarea>
         <br/><br/>
         <button onClick="submitComment()">Submit</button>
-        <p>How Many Comments Would You Like to See?
-        <br/>
+        <p><b>How Many Comments Would You Like to See?</b>
+        <br/><br/>
         <label for="numComments">Number of Comments:</label>
         <input type="text" id="numComments" name="numComments" min="0">
         <br>
         <button onclick="getDataUsingAsyncAwait()">See Comments</button>
         <button onclick="hideData()">Hide Comments</button>
+        <button id="delete-button" onclick="deleteDataUsingAsyncAwait()">Delete Comments</button>
         <div id="data-container"></div>
         <footer>
           No copyright infringement is intended. <a href="imagegallery.html" id="nxpage"> Next </a>
