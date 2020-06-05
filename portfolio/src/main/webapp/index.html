@@ -49,22 +49,29 @@
           I may be having, while gaining more muscle mass for myself.
         <p>Click <button onclick="addRandomFact()">here</button> to see random facts about me!
         <div id="fact-container"></div>
-        <form action="/data" method="POST">
-          <p><b>Want to Leave a Comment?</b>
-          <br/>
-          <label for="name">Name:</label>
-          <input type="text" name="name">
-          <br/>
-          <label for="email">Email:</label>
-          <input type="email" name="email">
-          <br/>
-          <label for="comment">Comment:</label>
-          <textarea name="comment"></textarea>
-          <br/><br/>
-          <input type="submit" />
-        </form>
+        <nav id="divider">
+          <li>_
+        </nav>
+        <p><b>Want to Leave a Comment?</b>
+        <br/>
+        <label for="name">Name:</label>
+        <input id="username" type="text" name="name">
+        <br/>
+        <label for="email">Email:</label>
+        <input id="email" type="email" name="email">
+        <br/>
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment"></textarea>
+        <br/><br/>
+        <button onClick="submitComment()">Submit</button>
+        <p><b>How Many Comments Would You Like to See?</b>
+        <br/><br/>
+        <label for="numComments">Number of Comments:</label>
+        <input type="text" id="numComments" name="numComments" min="0">
+        <br>
         <button onclick="getDataUsingAsyncAwait()">See Comments</button>
         <button onclick="hideData()">Hide Comments</button>
+        <button id="delete-button" onclick="deleteDataUsingAsyncAwait()">Delete Comments</button>
         <div id="data-container"></div>
         <footer>
           No copyright infringement is intended. <a href="imagegallery.html" id="nxpage"> Next </a>
