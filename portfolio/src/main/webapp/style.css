@@ -24,6 +24,12 @@
   visibility: hidden;
 }
 
+#divider {
+  background-color: #ce0f3d;
+  color: #ce0f3d;
+  list-style-type: none;
+}
+
 #fact-container {
   border: 15px;
   border-style: groove;
