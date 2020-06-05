@@ -52,36 +52,37 @@ public class Comments extends HttpServlet {
 
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response){
-    // Prepare the Query to store the entity you want to load
+    // Prepare the Query to store the entities you want to load
     Query query = new Query("Data");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	PreparedQuery results = datastore.prepare(query);
 
     // Delete all the comments in the datastore admin page
-      for(Entity entity : results.asIterable()){
-        datastore.delete(entity.getKey());
-      }
+    for(Entity entity : results.asIterable()){
+      datastore.delete(entity.getKey());
     }
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Prepare the Query to store the entity you want to load
+    // Prepare the Query to store the entities you want to load
     Query query = new Query("Data").addSort("Timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	PreparedQuery results = datastore.prepare(query);
+    PreparedQuery results = datastore.prepare(query);
 
     // Get the input from the form
     int userChoice = getNumberOfComments(request);
-    if (userChoice == -1) {
+    if (userChoice < 0) {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.setContentType("text/html");
       response.getWriter().println("Please enter an integer larger than -1.");
       return;
     }
-	else{
+    else{
       // Loop over the entities to store the feedback in a list
       List<Feedback> statements = new ArrayList<Feedback>();
       for (Entity entity : results.asIterable()) {
-        if(userChoice == 0){
+        if(userChoice == 0) {
           break;
         }
         String name = (String) entity.getProperty("Name");
@@ -102,14 +103,10 @@ public class Comments extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Prepare the Query to store the entity you want to load
-    Query query = new Query("Data").addSort("Timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	PreparedQuery results = datastore.prepare(query);
     
     // Get the body of the HTTP Post
     String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-    System.out.println(body);
 
     Gson gson = new Gson();
     Comment target = gson.fromJson(body, Comment.class);
@@ -133,31 +130,6 @@ public class Comments extends HttpServlet {
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(dataEntity));
-  }
-
-  private String convertToJson(String name, String email, String comment, long timestamp){
-    String json = "{";
-    json += "\"Name\": ";
-    json += "\"" + name + "\"";
-    json += ", ";
-    json += "\"Email\": ";
-    json += "\"" + email + "\"";
-    json += ", ";
-    json += "\"Comment\": ";
-    json += comment;
-    json += "\"Timestamp\": ";
-    json += timestamp;
-    json += "}";
-    return json;
-  }
-  
-  /**
-   * Convert Data instance into a JSON string using GSON. Note: We had to add a GSON library dependency to the pom.xml file.
-   */
-  private String convertToJsonUsingGson(ArrayList comments){
-	Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    return json;
   }
   
   /** 
@@ -190,7 +162,7 @@ public class Comments extends HttpServlet {
    *         was not specified by the user/client
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue){
-	String value = request.getParameter(name);
+    String value = request.getParameter(name);
     if(value == null){
       return defaultValue;
     }
