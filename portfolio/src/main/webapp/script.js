@@ -143,7 +143,6 @@ async function submitComment() {
   // Retrieve the data from '/comments'
   const data = {
     'name': document.querySelector('#username').value,
-    'email': document.querySelector('#email').value,
     'comment': document.querySelector('#comment').value,
   };
   const response = await fetch('/comments', {
@@ -153,7 +152,6 @@ async function submitComment() {
 
   // Set the values to empty strings so the next data can be itself
   document.querySelector('#username').value = "";
-  document.querySelector('#email').value = "";
   document.querySelector('#comment').value = "";
 
   // Put the text on the page
