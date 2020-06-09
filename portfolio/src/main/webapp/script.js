@@ -94,30 +94,30 @@ function hideData() {
  * Manages the visibility of certain content based on the login status of the user.
  */
 function manageVisibility() {
-  let dc = document.querySelectorAll('.requiresauth');
-  let un = document.querySelector('#unauth');
+  let dataContainer = document.querySelectorAll('.requiresauth');
+  let unauth = document.querySelector('#unauth');
   fetch('/login', {
     method: 'HEAD',
   }).then(function (response) {
     if (response.ok) {
-      for (let item of dc) {
+      for (let item of dataContainer) {
        item.style.visibility = 'visible'; 
       }
-      un.style.visibility = 'hidden';
+      unauth.style.visibility = 'hidden';
       getDataUsingAsyncAwait();
     }
     else {
-      for (let item of dc) {
-       item.style.visibility = 'hidden'; 
+      for (let item of dataContainer) {
+        item.style.visibility = 'hidden'; 
       }
-      un.style.visibility = 'visible';
+      unauth.style.visibility = 'visible';
     }
   })
   .catch(function() { 
-    for (let item of dc) {
-       item.style.visibility = 'hidden'; 
+    for (let item of dataContainer) {
+      item.style.visibility = 'hidden'; 
     }
-    un.style.visibility = 'hidden';
+    unauth.style.visibility = 'hidden';
     });
   }
 
