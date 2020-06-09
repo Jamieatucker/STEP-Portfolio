@@ -27,7 +27,9 @@
 #divider {
   background-color: #ce0f3d;
   color: #ce0f3d;
+  height: 15px;
   list-style-type: none;
+  width: auto;
 }
 
 #fact-container {
@@ -47,8 +49,6 @@
 }
 
 #hiddentalent-container {
-  border: 15px;
-  border-style: groove;
   margin-top: 20px;
   visibility: hidden;
 }
