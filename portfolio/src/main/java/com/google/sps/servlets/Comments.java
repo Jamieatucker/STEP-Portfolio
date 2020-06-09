@@ -132,7 +132,7 @@ public class Comments extends HttpServlet {
 
     // Get the input from the form
     String name = target.name;
-    String email = target.email;
+    String email = userService.getCurrentUser().getEmail();
     String comment = target.comment;
     long timestamp = System.currentTimeMillis();
 
