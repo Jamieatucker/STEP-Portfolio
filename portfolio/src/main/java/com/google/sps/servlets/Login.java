@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
       String urlToRedirectToAfterUserLogsOut = "/login";
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
-	  response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
+      response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
       response.getWriter().println("<div id=\"content\">");
       response.getWriter().println("<p>Hello " + userEmail + "!</p>");
       response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
@@ -51,7 +51,7 @@ public class Login extends HttpServlet {
       String urlToRedirectToAfterUserLogsIn = "/index.html";
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
-	  response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
+      response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
       response.getWriter().println("<div id=\"content\">");
       response.getWriter().println("<p>Hello Stranger.</p>");
       response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login and view the site.</p>");
@@ -85,9 +85,9 @@ public class Login extends HttpServlet {
    */
   private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    Query query = new Query("UserInfo")
+    	.setFilter(new Query.FilterPredicate("id",
+    Query.FilterOperator.EQUAL, id));
     PreparedQuery results = datastore.prepare(query);
     Entity entity = results.asSingleEntity();
     if (entity == null) {

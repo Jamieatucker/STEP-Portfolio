@@ -55,7 +55,7 @@ public class Comments extends HttpServlet {
     // Prepare the Query to store the entities you want to load
     Query query = new Query("Data");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	PreparedQuery results = datastore.prepare(query);
+    PreparedQuery results = datastore.prepare(query);
 
     // Delete all the comments in the datastore admin page
     for(Entity entity : results.asIterable()){
@@ -163,7 +163,7 @@ public class Comments extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue){
     String value = request.getParameter(name);
-    if(value == null){
+    if (value == null) {
       return defaultValue;
     }
     return value;
