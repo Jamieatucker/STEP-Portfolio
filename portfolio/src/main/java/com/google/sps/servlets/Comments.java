@@ -22,6 +22,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Feedback;
 import java.io.IOException;
@@ -52,6 +54,11 @@ public class Comments extends HttpServlet {
 
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response){
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
     // Prepare the Query to store the entities you want to load
     Query query = new Query("Data");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -64,7 +71,13 @@ public class Comments extends HttpServlet {
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {    
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+    
     // Prepare the Query to store the entities you want to load
     Query query = new Query("Data").addSort("Timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -103,6 +116,12 @@ public class Comments extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
     // Get the body of the HTTP Post
