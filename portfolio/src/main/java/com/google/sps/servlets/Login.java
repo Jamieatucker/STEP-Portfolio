@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
       response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
       response.getWriter().println("<div id=\"content\">");
       response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      response.getWriter().println("<p>Click <a href=\"/index.html\">here</a> to view the site or <a href=\"" + logoutUrl + "\">here</a> to logout.</p>");
       response.getWriter().println("</div>");
     } else {
       String urlToRedirectToAfterUserLogsIn = "/index.html";
@@ -54,8 +54,17 @@ public class Login extends HttpServlet {
       response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
       response.getWriter().println("<div id=\"content\">");
       response.getWriter().println("<p>Hello Stranger.</p>");
-      response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login and view the site.</p>");
+      response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login or <a href=\"" + urlToRedirectToAfterUserLogsIn + "\">here</a> to view the site as a guest.</p>");
       response.getWriter().println("</div>");
+    }
+  }
+
+@Override
+  public void doHead(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
     }
   }
 
@@ -97,3 +106,4 @@ public class Login extends HttpServlet {
     return nickname;
   }
 }
+
