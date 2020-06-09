@@ -65,7 +65,6 @@ async function getDataUsingAsyncAwait() {
   for(i = 0; i < data.length; i++){
     text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br/>";
   }
-
   // Add the data to the page
   const dataContainer = document.querySelector('#data-container');
   dataContainer.style.visibility = 'visible';
@@ -73,11 +72,53 @@ async function getDataUsingAsyncAwait() {
 }
 
 /**
- * Hides the comment section.
+ * Returns true if the user is logged in, false otherwise.
+ */
+async function isLoggedIn() {
+  return await fetch('/login', {
+    method: 'HEAD',
+  }).then(function(response) {
+    console.log(response.ok);
+    return response.ok;
+  }).catch(()=> false);
+}
+
+/**
+ * Hides the comment section (only works if logged in).
  */
 function hideData() {
   document.querySelector('#data-container').style.visibility = 'hidden';
 }
+
+/**
+ * Manages the visibility of certain content based on the login status of the user.
+ */
+function manageVisibility() {
+  let dc = document.querySelectorAll('.requiresauth');
+  let un = document.querySelector('#unauth');
+  fetch('/login', {
+    method: 'HEAD',
+  }).then(function (response) {
+    if (response.ok) {
+      for (let item of dc) {
+       item.style.visibility = 'visible'; 
+      }
+      un.style.visibility = 'hidden';
+    }
+    else {
+      for (let item of dc) {
+       item.style.visibility = 'hidden'; 
+      }
+      un.style.visibility = 'visible';
+    }
+  })
+  .catch(function() { 
+    for (let item of dc) {
+       item.style.visibility = 'hidden'; 
+    }
+    un.style.visibility = 'hidden';
+    });
+  }
 
 /**
  * Reveals my hidden talent to the hidden talent page.
