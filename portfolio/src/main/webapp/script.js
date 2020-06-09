@@ -104,6 +104,7 @@ function manageVisibility() {
        item.style.visibility = 'visible'; 
       }
       un.style.visibility = 'hidden';
+      getDataUsingAsyncAwait();
     }
     else {
       for (let item of dc) {
