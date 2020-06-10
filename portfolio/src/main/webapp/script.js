@@ -13,6 +13,12 @@
 // limitations under the License.
 
 /**
+ * Packages needed for certain APIs
+ */
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/**
  * Adds a random fact to the home page.
  */
 function addRandomFact() {
@@ -54,6 +60,33 @@ async function deleteDataUsingAsyncAwait() {
   dataContainer.style.display = 'block';
   dataContainer.innerHTML = data;
 }
+
+/**
+  * Fetches sport votes and uses it to create a chart.
+  */
+function drawChart() {
+  fetch('/sports').then(response => response.json())
+  .then((sportVotes) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Sport');
+    data.addColumn('number', 'Votes');
+    Object.keys(sportVotes).forEach((sport) => {
+      data.addRow([sport, sportVotes[sport]]);
+    });
+
+    const options = {
+      'title': 'Favorite Sports',
+      'width': 600,
+      'height': 500,
+      'backgroundColor': '#b0b7bc',
+    };
+
+    const chart = new google.visualization.ColumnChart(
+        document.querySelector('#chart-container'));
+    chart.draw(data, options);
+  });
+}
+
 
 /**
  * Adds the data from the Comments servlet using async/await (the return values are used directly), and converts it to a JSON.
