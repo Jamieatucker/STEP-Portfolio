@@ -45,7 +45,8 @@ public class Login extends HttpServlet {
       response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
       response.getWriter().println("<div id=\"content\">");
       response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Click <a href=\"/index.html\">here</a> to view the site or <a href=\"" + logoutUrl + "\">here</a> to logout.</p>");
+      response.getWriter().println("<p>Click <a href=\"/index.html\">here</a> to view the site or " + 
+          "<a href=\"" + logoutUrl + "\">here</a> to logout.</p>");
       response.getWriter().println("</div>");
     } else {
       String urlToRedirectToAfterUserLogsIn = "/index.html";
@@ -54,7 +55,8 @@ public class Login extends HttpServlet {
       response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
       response.getWriter().println("<div id=\"content\">");
       response.getWriter().println("<p>Hello Stranger.</p>");
-      response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login or <a href=\"" + urlToRedirectToAfterUserLogsIn + "\">here</a> to view the site as a guest.</p>");
+      response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login or " + 
+          "<a href=\"" + urlToRedirectToAfterUserLogsIn + "\">here</a> to view the site as a guest.</p>");
       response.getWriter().println("</div>");
     }
   }
@@ -83,6 +85,7 @@ public class Login extends HttpServlet {
     Entity entity = new Entity("UserInfo", id);
     entity.setProperty("id", id);
     entity.setProperty("nickname", nickname);
+
     // The put() function automatically inserts new data or updates existing data based on ID
     datastore.put(entity);
 
@@ -95,7 +98,7 @@ public class Login extends HttpServlet {
   private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("UserInfo")
-    	.setFilter(new Query.FilterPredicate("id",
+        .setFilter(new Query.FilterPredicate("id",
     Query.FilterOperator.EQUAL, id));
     PreparedQuery results = datastore.prepare(query);
     Entity entity = results.asSingleEntity();

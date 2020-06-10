@@ -106,7 +106,6 @@ public class Comments extends HttpServlet {
       Gson gson = new Gson();
       response.setContentType("application/json");
       response.getWriter().println(gson.toJson(statements));
-    }
   }
   
   @Override
