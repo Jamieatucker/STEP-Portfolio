@@ -75,17 +75,6 @@ async function getDataUsingAsyncAwait() {
 }
 
 /**
- * Returns true if the user is logged in, false otherwise.
- */
-async function isLoggedIn() {
-  return await fetch('/login', {
-    method: 'HEAD',
-  }).then(function(response) {
-    return response.ok;
-  }).catch(()=> false);
-}
-
-/**
  * Hides the comment section (only works if logged in).
  */
 function hideData() {
@@ -99,8 +88,8 @@ function hideData() {
 function manageVisibility() {
   let dataContainer = document.querySelectorAll('.requiresauth');
   let unauth = document.querySelector('#unauth');
-  fetch('/login', {
-    method: 'HEAD',
+  fetch('/authstatus', {
+    method: 'GET',
   }).then(function (response) {
     if (response.ok) {
       for (let item of dataContainer) {
