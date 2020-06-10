@@ -28,35 +28,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/login")
-public class Login extends HttpServlet {
+@WebServlet("/authstatus")
+public class AuthStatus extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
-
     UserService userService = UserServiceFactory.getUserService();
-    if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/login";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
+    }
+  }
 
-      response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
-      response.getWriter().println("<div id=\"content\">");
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Click <a href=\"/index.html\">here</a> to view the site or " + 
-          "<a href=\"" + logoutUrl + "\">here</a> to logout.</p>");
-      response.getWriter().println("</div>");
-    } else {
-      String urlToRedirectToAfterUserLogsIn = "/index.html";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
-      response.getWriter().println("<div id=\"content\">");
-      response.getWriter().println("<p>Hello Stranger.</p>");
-      response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login or " + 
-          "<a href=\"" + urlToRedirectToAfterUserLogsIn + "\">here</a> to view the site as a guest.</p>");
-      response.getWriter().println("</div>");
+@Override
+  public void doHead(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      return;
     }
   }
 }
