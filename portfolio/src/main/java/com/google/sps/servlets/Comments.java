@@ -59,6 +59,7 @@ public class Comments extends HttpServlet {
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       return;
     }
+
     // Prepare the Query to store the entities you want to load
     Query query = new Query("Data");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -85,31 +86,25 @@ public class Comments extends HttpServlet {
 
     // Get the input from the form
     int userChoice = getNumberOfComments(request);
-    if (userChoice < 0) {
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      response.setContentType("text/html");
-      response.getWriter().println("Please enter an integer larger than -1.");
-      return;
-    }
-    else{
-      // Loop over the entities to store the feedback in a list
-      List<Feedback> statements = new ArrayList<Feedback>();
-      for (Entity entity : results.asIterable()) {
-        if(userChoice == 0) {
-          break;
-        }
-        String name = (String) entity.getProperty("Name");
-        String email = (String) entity.getProperty("Email");
-        String comment = (String) entity.getProperty("Comment");
-        long timestamp = (long) entity.getProperty("Timestamp");
-	    
-        Feedback feedback = new Feedback(name, email, comment, timestamp);
-        statements.add(feedback);
-        userChoice--;
+    
+    // Loop over the entities to store the feedback in a list
+    List<Feedback> statements = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      if (userChoice == 0) {
+        break;
       }
+      String name = (String) entity.getProperty("Name");
+      String email = (String) entity.getProperty("Email");
+      String comment = (String) entity.getProperty("Comment");
+      long timestamp = (long) entity.getProperty("Timestamp");
+	    
+      Feedback feedback = new Feedback(name, email, comment, timestamp);
+      statements.add(feedback);
+      userChoice--;
+    }
       // Send the JSON as the response
       Gson gson = new Gson();
-      response.setContentType("application/json;");
+      response.setContentType("application/json");
       response.getWriter().println(gson.toJson(statements));
     }
   }
@@ -167,7 +162,7 @@ public class Comments extends HttpServlet {
       return Integer.MAX_VALUE;
     }
 
-    // Check that the input is greater than 0.
+    // Check that the input is greater than or equal to 0.
     if (userChoice < 0) {
       System.err.println("User choice is out of range: " + userChoiceString);
       return Integer.MAX_VALUE;
@@ -175,17 +170,4 @@ public class Comments extends HttpServlet {
 
     return userChoice;
   }
-
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the user/client
-   */
-  private String getParameter(HttpServletRequest request, String name, String defaultValue){
-    String value = request.getParameter(name);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
-  }
-
 }
