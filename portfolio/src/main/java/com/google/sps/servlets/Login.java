@@ -38,7 +38,6 @@ public class Login extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
-      String nickname = getUserNickname(userService.getCurrentUser().getUserId());
       String urlToRedirectToAfterUserLogsOut = "/login";
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
@@ -59,54 +58,6 @@ public class Login extends HttpServlet {
           "<a href=\"" + urlToRedirectToAfterUserLogsIn + "\">here</a> to view the site as a guest.</p>");
       response.getWriter().println("</div>");
     }
-  }
-
-@Override
-  public void doHead(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
-      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      return;
-    }
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/login");
-      return;
-    }
-
-    String nickname = request.getParameter("nickname");
-    String id = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity entity = new Entity("UserInfo", id);
-    entity.setProperty("id", id);
-    entity.setProperty("nickname", nickname);
-
-    // The put() function automatically inserts new data or updates existing data based on ID
-    datastore.put(entity);
-
-    response.sendRedirect("/index.html");
-  }
-
-  /**
-   * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("UserInfo")
-        .setFilter(new Query.FilterPredicate("id",
-    Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }
 
