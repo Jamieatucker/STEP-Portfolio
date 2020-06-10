@@ -36,7 +36,6 @@ public class AuthStatus extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      return;
     }
   }
 
@@ -45,7 +44,6 @@ public class AuthStatus extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      return;
     }
   }
 }
