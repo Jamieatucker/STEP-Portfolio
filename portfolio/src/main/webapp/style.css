@@ -15,6 +15,13 @@
   word-spacing: 3px;
 }
 
+#chart-container {
+  border: 15px;
+  border-style: groove;
+  margin: 10px;
+  padding: 30px;
+}
+
 #data-container {
   border: 15px;
   border-style: groove;
