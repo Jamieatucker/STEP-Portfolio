@@ -18,6 +18,7 @@
 #data-container {
   border: 15px;
   border-style: groove;
+  display: none;
   margin: 10px;
   padding: 30px;
   text-align: center;
@@ -35,6 +36,7 @@
 #fact-container {
   border: 15px;
   border-style: groove;
+  display: none;
   margin: 10px;
   padding: 30px;
   text-align: center;
@@ -49,11 +51,13 @@
 }
 
 #hiddentalent-container {
+  display: none;
   margin-top: 20px;
   visibility: hidden;
 }
 
 #music {
+  display: none;
   visibility: hidden;
 }
 
@@ -79,6 +83,7 @@
   border: 15px;
   border-color: #666;
   border-style: groove;
+  display: none;
   width: 65%;
   visibility: hidden;
 }
@@ -91,6 +96,7 @@
 }
 
 #unauth {
+  display: none;
   visibility: hidden;
 }
 
@@ -104,6 +110,7 @@
 }
 
 .requiresauth {
+  display: none;
   visibility: hidden;
 }
 
