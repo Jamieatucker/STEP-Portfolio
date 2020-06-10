@@ -34,6 +34,7 @@ function addRandomFact() {
   // Add it to the page
   const factContainer = document.querySelector('#fact-container')
   factContainer.style.visibility = 'visible';
+  factContainer.style.display = 'block';
   factContainer.innerText = fact;
 }
 
@@ -50,6 +51,7 @@ async function deleteDataUsingAsyncAwait() {
   // Delete the data from the page
   const dataContainer = document.querySelector('#data-container');
   dataContainer.style.visibility = 'hidden';
+  dataContainer.style.display = 'block';
   dataContainer.innerHTML = data;
 }
 
@@ -68,6 +70,7 @@ async function getDataUsingAsyncAwait() {
   // Add the data to the page
   const dataContainer = document.querySelector('#data-container');
   dataContainer.style.visibility = 'visible';
+  dataContainer.style.display = 'block';
   dataContainer.innerHTML = text;
 }
 
@@ -78,7 +81,6 @@ async function isLoggedIn() {
   return await fetch('/login', {
     method: 'HEAD',
   }).then(function(response) {
-    console.log(response.ok);
     return response.ok;
   }).catch(()=> false);
 }
@@ -88,6 +90,7 @@ async function isLoggedIn() {
  */
 function hideData() {
   document.querySelector('#data-container').style.visibility = 'hidden';
+  document.querySelector('#data-container').style.display = 'none';
 }
 
 /**
@@ -101,23 +104,29 @@ function manageVisibility() {
   }).then(function (response) {
     if (response.ok) {
       for (let item of dataContainer) {
-       item.style.visibility = 'visible'; 
+       item.style.visibility = 'visible';
+       item.style.display = 'block'; 
       }
       unauth.style.visibility = 'hidden';
+      unauth.style.display = 'none';
       getDataUsingAsyncAwait();
     }
     else {
       for (let item of dataContainer) {
-        item.style.visibility = 'hidden'; 
+        item.style.visibility = 'hidden';
+        item.style.display = 'none'; 
       }
       unauth.style.visibility = 'visible';
+      unauth.style.display = 'block';
     }
   })
   .catch(function() { 
     for (let item of dataContainer) {
-      item.style.visibility = 'hidden'; 
+      item.style.visibility = 'hidden';
+      item.style.display = 'none'; 
     }
     unauth.style.visibility = 'hidden';
+    unauth.style.display = 'none';
     });
   }
 
@@ -128,12 +137,15 @@ function revealHiddenTalent() {
   // Add the hidden talent on the page
   const hiddenTalentContainer = document.querySelector('#hiddentalent-container');
   hiddenTalentContainer.style.visibility = 'visible';
+  hiddenTalentContainer.style.display = 'block';
 
   // Reveal the GIF on the page
   document.querySelector('#rollsafe').style.visibility = 'visible';
+  document.querySelector('#rollsafe').style.display = 'block';
 
   // Reveal the audio file on the page
   document.querySelector('#music').style.visibility = 'visible';
+  document.querySelector('#music').style.display = 'inline';
 }
 
 /**
