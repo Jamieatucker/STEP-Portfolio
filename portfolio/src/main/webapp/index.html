@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
     </head>
     <body onload="manageVisibility()">
@@ -51,6 +52,19 @@
         <p>Click <button onclick="addRandomFact()">here</button> to see random facts about me!
         <div id="fact-container"></div>
         <hr id="divider">
+        <p>What is Your Favorite Sport?
+        <form action="/sports" method="POST">
+          <select name="sport">
+            <option value="football">Football</option>
+            <option value="basketball">Basketball</option>
+            <option value="baseball">Baseball</option>
+            <option value="soccer">Soccer</option>
+            <option value="hockey">Hockey</option>
+            <option value="other">Other</option>
+          </select>
+          <button>Submit</button>
+        </form>
+        <div class="center" id="chart-container"></div>
         <p id="unauth">Click <a href="/login"> here</a> to login and see/post comments. 
         <p class="requiresauth"><b>Want to Leave a Comment?</b>
         <br>
