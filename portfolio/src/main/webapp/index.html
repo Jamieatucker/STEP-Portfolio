@@ -52,8 +52,8 @@
         <p>Click <button onclick="addRandomFact()">here</button> to see random facts about me!
         <div id="fact-container"></div>
         <hr id="divider">
-        <p>What is Your Favorite Sport?
-        <form action="/sports" method="POST">
+        <p class="requiresauth">What is Your Favorite Sport?
+        <form class="requiresauth" action="/sports" method="POST">
           <select name="sport">
             <option value="football">Football</option>
             <option value="basketball">Basketball</option>
@@ -64,7 +64,7 @@
           </select>
           <button>Submit</button>
         </form>
-        <div class="center" id="chart-container"></div>
+        <div class="requiresauth" id="chart-container"></div>
         <p id="unauth">Click <a href="/login"> here</a> to login and see/post comments. 
         <p class="requiresauth"><b>Want to Leave a Comment?</b>
         <br>
