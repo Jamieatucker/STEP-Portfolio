@@ -16,6 +16,12 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,19 +40,42 @@ public class SportsData extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    }
+    
+    // Prepare the Query to store the entities you want to load
+    Query query = new Query("SportsData").addSort("Timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    
+    for(Entity entity : results.asIterable()){
+      String sport = (String) entity.getProperty("Sport");
+      int votes = (int) entity.getProperty("Votes");
+    } 
+    
     Gson gson = new Gson();
-    String json = gson.toJson(sportVotes);
-    response.getWriter().println(json);
+    response.setContentType("application/json");
+    response.getWriter().println(gson.toJson(sportVotes));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
+    // If the sport is in the HashMap, add to the current vote total, else add one vote to the new sport
     String sport = request.getParameter("sport");
-    int currentVotes = sportVotes.containsKey(sport) ? sportVotes.get(sport) : 0;
-    sportVotes.put(sport, currentVotes + 1);
+    int currentVotes = 0;
+    if (sportVotes.containsKey(sport)) {
+      currentVotes = sportVotes.get(sport);
+      currentVotes++;
+      sportVotes.put(sport, currentVotes);
+    }
+    else {
+      currentVotes = 1;
+      sportVotes.put(sport, currentVotes);
+    }
 
     // Create an entity and set its properties
     Entity dataEntity = new Entity("SportsData");
@@ -58,8 +87,9 @@ public class SportsData extends HttpServlet {
     
     // Send the JSON as the response
     response.setContentType("application/json;");
+    Gson gson = new Gson();
     response.getWriter().println(gson.toJson(dataEntity));
-    
+
     String redirect = request.getHeader("Referer");
     response.sendRedirect(redirect);
   }
