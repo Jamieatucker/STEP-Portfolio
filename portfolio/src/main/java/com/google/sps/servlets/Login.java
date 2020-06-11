@@ -34,30 +34,29 @@ public class Login extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
-
     UserService userService = UserServiceFactory.getUserService();
-    if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/login";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
-      response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
-      response.getWriter().println("<div id=\"content\">");
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Click <a href=\"/index.html\">here</a> to view the site or " + 
-          "<a href=\"" + logoutUrl + "\">here</a> to logout.</p>");
-      response.getWriter().println("</div>");
-    } else {
-      String urlToRedirectToAfterUserLogsIn = "/index.html";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
-      response.getWriter().println("<div id=\"content\">");
-      response.getWriter().println("<p>Hello Stranger.</p>");
-      response.getWriter().println("<p>Click <a href=\"" + loginUrl + "\">here</a> to login or " + 
-          "<a href=\"" + urlToRedirectToAfterUserLogsIn + "\">here</a> to view the site as a guest.</p>");
-      response.getWriter().println("</div>");
+    String redirect = request.getHeader("Referer");
+    if (redirect == null) {
+      redirect = "/index.html";
     }
+    String userEmail = "Stranger";
+    String url = "";
+    String status = "login";
+
+    if (userService.isUserLoggedIn()) {
+      userEmail = userService.getCurrentUser().getEmail();
+      url = userService.createLogoutURL(redirect);
+      status = "logout";
+    } else {
+      url = userService.createLoginURL(redirect);
+    }
+    response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
+    response.getWriter().println("<div id=\"content\">");
+    response.getWriter().println("<p>Hello " + userEmail + "!</p>");
+    response.getWriter().println("<p>Click <a href=\"" + redirect + "\">here</a> to view the site or " + 
+          "<a href=\"" + url + "\">here</a> to " + status + ".</p>");
+    response.getWriter().println("</div>");
   }
 }
 

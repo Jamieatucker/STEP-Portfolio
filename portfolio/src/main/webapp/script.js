@@ -13,6 +13,12 @@
 // limitations under the License.
 
 /**
+ * Packages needed for certain APIs
+ */
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/**
  * Adds a random fact to the home page.
  */
 function addRandomFact() {
@@ -56,6 +62,36 @@ async function deleteDataUsingAsyncAwait() {
 }
 
 /**
+  * Fetches sport votes and uses it to create a chart.
+  */
+function drawChart() {
+  fetch('/sports').then(response => response.json())
+  .then((sportVotes) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Sport');
+    data.addColumn('number', 'Votes');
+    Object.keys(sportVotes).forEach((sport) => {
+      data.addRow([sport, sportVotes[sport]]);
+    });
+
+    const options = {
+      'title': 'Favorite Sports',
+      'width': 550,
+      'height': 500,
+      'backgroundColor': '#b0b7bc',
+    };
+
+    const chart = new google.visualization.ColumnChart(
+        document.querySelector('#chart-container'));
+    chart.draw(data, options);
+  });
+  
+  // Display the chart on to the page
+  document.querySelector('#chart-container').style.visibility = 'visible';
+  document.querySelector('#chart-container').style.display = 'block';
+}
+
+/**
  * Adds the data from the Comments servlet using async/await (the return values are used directly), and converts it to a JSON.
  */
 async function getDataUsingAsyncAwait() {
@@ -65,8 +101,9 @@ async function getDataUsingAsyncAwait() {
   const data = await response.json();
   var text = "";
   for(i = 0; i < data.length; i++){
-    text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br/>";
+    text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br>";
   }
+
   // Add the data to the page
   const dataContainer = document.querySelector('#data-container');
   dataContainer.style.visibility = 'visible';
