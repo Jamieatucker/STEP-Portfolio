@@ -19,6 +19,9 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -36,8 +39,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/sports")
 public class SportsData extends HttpServlet {
 
-  private Map<String, Integer> sportVotes = new HashMap<>();
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -50,9 +51,19 @@ public class SportsData extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
     
+    Map<String, Integer> sportVotes = new HashMap<>();
     for(Entity entity : results.asIterable()){
       String sport = (String) entity.getProperty("Sport");
-      int votes = (int) entity.getProperty("Votes");
+      int newVotes = 0;
+      if (sportVotes.containsKey(sport)) {
+        newVotes = sportVotes.get(sport);
+        newVotes++;
+        sportVotes.put(sport, newVotes);
+      }
+      else {
+        newVotes = 1;
+        sportVotes.put(sport, newVotes);
+      }
     } 
     
     Gson gson = new Gson();
@@ -62,27 +73,19 @@ public class SportsData extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    
-    // If the sport is in the HashMap, add to the current vote total, else add one vote to the new sport
+    // Get the vote details
     String sport = request.getParameter("sport");
-    int currentVotes = 0;
-    if (sportVotes.containsKey(sport)) {
-      currentVotes = sportVotes.get(sport);
-      currentVotes++;
-      sportVotes.put(sport, currentVotes);
-    }
-    else {
-      currentVotes = 1;
-      sportVotes.put(sport, currentVotes);
-    }
+    int currentVotes = 1;
+    long timestamp = System.currentTimeMillis();
 
     // Create an entity and set its properties
     Entity dataEntity = new Entity("SportsData");
     dataEntity.setProperty("Sport", sport);
     dataEntity.setProperty("Votes", currentVotes);
+    dataEntity.setProperty("Timestamp", timestamp);
 
     // Store the entities
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(dataEntity);
     
     // Send the JSON as the response
@@ -90,6 +93,7 @@ public class SportsData extends HttpServlet {
     Gson gson = new Gson();
     response.getWriter().println(gson.toJson(dataEntity));
 
+    // Redirect to the page the user was just on
     String redirect = request.getHeader("Referer");
     response.sendRedirect(redirect);
   }
