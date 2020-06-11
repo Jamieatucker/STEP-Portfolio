@@ -76,7 +76,7 @@ function drawChart() {
 
     const options = {
       'title': 'Favorite Sports',
-      'width': 600,
+      'width': 550,
       'height': 500,
       'backgroundColor': '#b0b7bc',
     };
