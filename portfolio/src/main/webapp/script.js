@@ -85,8 +85,11 @@ function drawChart() {
         document.querySelector('#chart-container'));
     chart.draw(data, options);
   });
+  
+  // Display the chart on to the page
+  document.querySelector('#chart-container').style.visibility = 'visible';
+  document.querySelector('#chart-container').style.display = 'block';
 }
-
 
 /**
  * Adds the data from the Comments servlet using async/await (the return values are used directly), and converts it to a JSON.
@@ -98,8 +101,9 @@ async function getDataUsingAsyncAwait() {
   const data = await response.json();
   var text = "";
   for(i = 0; i < data.length; i++){
-    text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br/>";
+    text += "<b>" + data[i].name + " " + data[i].email + "</b>" + " " + "<i>" + data[i].comment + "</i><br>";
   }
+
   // Add the data to the page
   const dataContainer = document.querySelector('#data-container');
   dataContainer.style.visibility = 'visible';
