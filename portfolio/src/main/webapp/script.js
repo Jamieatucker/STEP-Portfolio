@@ -112,6 +112,59 @@ async function getDataUsingAsyncAwait() {
 }
 
 /**
+ * Get all the teams in the NBA.
+ */
+async function getNbaTeamsUsingAsyncAwait() {
+  const response = await fetch("https://free-nba.p.rapidapi.com/teams?page=0", {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "free-nba.p.rapidapi.com",
+		"x-rapidapi-key": 
+            "20d91d87d5mshfd44d974ad4d8ccp15d9cfjsn12bdf5fc1d42"
+	}
+  });
+  const teams = await response.json();
+
+  var text = "";
+  for(i = 0; i < teams.data.length; i++){
+    text += "<b>" + teams.data[i].city + " " + teams.data[i].name + "</b><br>";
+  }
+
+  // Add the teams to the page
+  const nba = document.querySelector('#nba-data');
+  nba.style.visibility = 'visible';
+  nba.style.display = 'block';
+  nba.innerHTML = text;
+}
+
+/**
+ * Generate a random player that plays in the NBA.
+ */
+async function getRandomNbaPlayerUsingAsyncAwait() {
+  // There are 494 current NBA players on a team
+  var rand = Math.floor((Math.random() * 494));
+  const response = await fetch("https://free-nba.p.rapidapi.com/players/" + rand + "\"", {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "free-nba.p.rapidapi.com",
+		"x-rapidapi-key": "20d91d87d5mshfd44d974ad4d8ccp15d9cfjsn12bdf5fc1d42"
+	}
+  });
+  const player = await response.json();
+
+  // Formatting the player's details on to the page
+  var text = "<b>" + player.team.full_name + "</b><br><i>" + player.first_name + " " + player.last_name + " " + 
+      player.height_feet + "\'" + player.height_inches + 
+      "\" " + player.position + "</i>";
+
+  // Add the random player to the page
+  const nbaPlayer = document.querySelector('#nba-player');
+  nbaPlayer.style.visibility = 'visible';
+  nbaPlayer.style.display = 'block';
+  nbaPlayer.innerHTML = text;
+}
+
+/**
  * Hides the comment section (only works if logged in).
  */
 function hideData() {
@@ -194,4 +247,21 @@ async function submitComment() {
 
   // Put the text on the page
   getDataUsingAsyncAwait();
+}
+
+/**
+ * Submits the vote to the '/sports' servlet.
+ */
+async function submitVote() {
+  // Retrieve the data from '/comments'
+  const data = {
+    'sport': document.querySelector('#selectsport').value,
+  };
+  const response = await fetch('/comments', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+
+  // Put the vote on the graph
+  drawChart();
 }

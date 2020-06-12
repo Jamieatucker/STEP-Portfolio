@@ -70,6 +70,20 @@
   visibility: hidden;
 }
 
+#nba-data {
+  border: 15px;
+  border-style: groove;
+  display: none;
+  visibility: hidden;
+}
+
+#nba-player {
+  border: 15px;
+  border-style: groove;
+  display: none;
+  visibility: hidden;
+}
+
 #nxpage {
   border: 4px;
   border-color: #666;

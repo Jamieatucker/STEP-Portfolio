@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0">
-    <title>Hidden Talent</title>
+    <title>Hidden Talent - My Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
@@ -17,6 +17,7 @@
         <a href="index.html">About Me</a>
         <a href="imagegallery.html">Image Gallery</a>
         <a href="hiddentalent.html">Hidden Talent</a>
+        <a href="nba.html">NBA</a>
         <a href="https://www.linkedin.com/in/jamieatucker/">LinkedIn</a>
         <a href="https://github.com/Jamieatucker">Github</a>
       </nav>
@@ -42,6 +43,20 @@
       <br>
       <div class="g-ytsubscribe" data-channel="Silent Whisper" data-channelid="UC_GvF0ovvzKsKYWmWHRQN2A" data-layout="default" data-count="default"></div>
       <hr id="divider">
+      <form class="requiresauth" action="/sports" method="POST">
+        <p class="requiresauth">What is Your Favorite Sport?
+        <br>
+        <select name="sport">
+          <option value="football">Football</option>
+          <option value="basketball">Basketball</option>
+          <option value="baseball">Baseball</option>
+          <option value="soccer">Soccer</option>
+          <option value="hockey">Hockey</option>
+          <option value="other">Other</option>
+        </select>
+        <button>Submit</button>
+      </form>
+      <div class="requiresauth" id="chart-container"></div>
       <p id="unauth">Click <a href="/login"> here</a> to login and see/post comments.
       <p class="requiresauth"><b>Want to Leave a Comment?</b>
       <br>
@@ -62,7 +77,7 @@
       <button id="delete-button" onclick="deleteDataUsingAsyncAwait()">Delete Comments</button>
       <div id="data-container" class="requiresauth"></div>
       <footer>
-        <a href="imagegallery.html" id="pvpage"> Previous</a>No copyright infringement is intended.
+        <a href="imagegallery.html" id="pvpage"> Previous</a>No copyright infringement is intended. <a href="nba.html" id="nxpage"> Next </a>
       </footer>
     </div>
   </body>

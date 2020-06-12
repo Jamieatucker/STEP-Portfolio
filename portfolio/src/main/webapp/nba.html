@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0">
+    <title>NBA - My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="script.js"></script>
+    </head>
+    <body onload="manageVisibility()">
+      <div id="content">
+        <h1 class="center">The NBA</h1>
+        <nav>
+          <a href="/login">Login Status</a>
+          <a href="index.html">About Me</a>
+          <a href="imagegallery.html">Image Gallery</a>
+          <a href="hiddentalent.html">Hidden Talent</a>
+          <a href="nba.html">NBA</a>
+          <a href="https://www.linkedin.com/in/jamieatucker/">LinkedIn</a>
+          <a href="https://github.com/Jamieatucker">Github</a>
+        </nav>
+        <figure>
+          <img src="/images/goldenstate.jpg" alt="Picture of the inside of the Golden State Warriors Arena." class="center">
+          <figcaption>A Visit to see the Golden State Warriors Play in 2016!</figcaption>
+        </figure>
+        <p>This page contains all the current teams in the NBA and a random NBA player selector.
+          Click <button onClick="getNbaTeamsUsingAsyncAwait()">here</button> to see the current
+          NBA teams!
+        <div id="nba-data"></div>
+        <p>There are currently 494 NBA players on an NBA roster.
+        <br><i>(Note: Some players may have null heights. That's not an issue on your end,
+            that's the public NBA API's issue.)</i>
+        <br><br>
+        <b>Random NBA Player Generator</b>
+        <br>
+        Click <button onclick="getRandomNbaPlayerUsingAsyncAwait()">here</button> to generate a player.
+        <div id="nba-player"></div>
+        <hr id="divider">
+        <form class="requiresauth" action="/sports" method="POST">
+          <p class="requiresauth">What is Your Favorite Sport?
+          <br>
+          <select name="sport">
+            <option value="football">Football</option>
+            <option value="basketball">Basketball</option>
+            <option value="baseball">Baseball</option>
+            <option value="soccer">Soccer</option>
+            <option value="hockey">Hockey</option>
+            <option value="other">Other</option>
+          </select>
+          <button>Submit</button>
+        </form>
+        <div class="requiresauth" id="chart-container"></div>
+        <p id="unauth">Click <a href="/login"> here</a> to login and see/post comments. 
+        <p class="requiresauth"><b>Want to Leave a Comment?</b>
+        <br>
+        <label for="name">Name:</label>
+        <input id="username" type="text" name="name">
+        <br>
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment"></textarea>
+        <br><br>
+        <button onClick="submitComment()">Submit</button>
+        <p class="requiresauth"><b>How Many Comments Would You Like to See?</b>
+        <br><br>
+        <label for="numComments">Number of Comments:</label>
+        <input type="text" id="numComments" name="numComments" min="0">
+        <br>
+        <button onclick="getDataUsingAsyncAwait()">See Comments</button>
+        <button onclick="hideData()">Hide Comments</button>
+        <button id="delete-button" onclick="deleteDataUsingAsyncAwait()">Delete Comments</button>
+        <div id="data-container" class="requiresauth"></div>
+        <footer>
+          <a href="hiddentalent.html" id="pvpage"> Previous</a>No copyright infringement is intended.
+        </footer>
+      </div>
+    </body>
+</html>
