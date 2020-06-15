@@ -92,37 +92,6 @@ function drawChart() {
 }
 
 /**
-  * Fetches sport votes and uses it to create a chart.
-  *//*
-async function drawChart() {
-  const response = await fetch('/sports');
-  const results = await response.json();
-
-  const data = new google.visualization.DataTable();
-  data.addColumn('string', 'Sport');
-  data.addColumn('number', 'Votes');
-  var sportVotes = {};
-  Object.keys(sportVotes).forEach((sport) => {
-    data.addRow([sport, sportVotes[sport]]);
-  });
-
-  const options = {
-    'title': 'Favorite Sports',
-    'width': 550,
-    'height': 500,
-    'backgroundColor': '#b0b7bc',
-  };
-
-  const chart = new google.visualization.ColumnChart(
-    document.querySelector('#chart-container'));
-  chart.draw(data, options);
-  
-  // Display the chart on to the page
-  document.querySelector('#chart-container').style.visibility = 'visible';
-  document.querySelector('#chart-container').style.display = 'block';
-}*/
-
-/**
  * Adds the data from the Comments servlet using async/await (the return values are used directly), and converts it to a JSON.
  */
 async function getDataUsingAsyncAwait() {
