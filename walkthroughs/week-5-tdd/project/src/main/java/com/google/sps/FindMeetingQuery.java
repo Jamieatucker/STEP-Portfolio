@@ -32,14 +32,26 @@ public final class FindMeetingQuery {
     
     // Will be used in the for-each loop
     int i = 0;
+    int k = 1;
 
     for (Event event : events) {
+      // Convert the collection to an event array
+      Event[] evArr = events.toArray(new Event[events.size()]);
+
       Set<String> currAttendees = event.getAttendees();
       int numAttendees = currAttendees.size();
       TimeRange currTime = event.getWhen();
       int evStart = currTime.start();
       int evEnd = currTime.end();
       int evDuration = currTime.duration();
+
+      // If any of the events overlap with one another
+      if (events.size() > 1 && evArr[k - 1].getWhen().overlaps(evArr[k].getWhen()) == true) {
+        TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evArr[k-1].getWhen().start(), false);
+        meetings.add(available);
+        available = currTime.fromStartEnd(evArr[k].getWhen().end(), TimeRange.END_OF_DAY, true);
+        meetings.add(available);
+      }
 
       // If there is only one event scheduled
       if ((events.size() == 1) && (evStart != TimeRange.START_OF_DAY)
@@ -74,6 +86,12 @@ public final class FindMeetingQuery {
       }
       i++;
       
+      // Last event and it doesn't stop at the end of the day
+      if ((events.size() > 1) && (i == events.size()) && (evDuration <= requiredDuration)
+          && (numAttendees <= requiredNumAttendees)) {
+            TimeRange available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
+            meetings.add(available);
+      }
       // Last event and it doesn't stop at the end of the day
       if ((events.size() > 1) && (i == events.size()) && (evDuration <= requiredDuration)
           && (numAttendees <= requiredNumAttendees)) {
