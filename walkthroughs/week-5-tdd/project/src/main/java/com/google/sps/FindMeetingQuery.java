@@ -14,10 +14,81 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    // Find events that match the requested number of attendees and duration
+    // and adds it to an ArrayList
+    Set<TimeRange> meetings = new HashSet<>();
+    Collection<String> requiredAttendees = request.getAttendees();
+    int requiredNumAttendees = requiredAttendees.size();
+    long requiredDuration = request.getDuration();
+    
+    // Will be used in the for-each loop
+    int i = 0;
+
+    for (Event event : events) {
+      Set<String> currAttendees = event.getAttendees();
+      int numAttendees = currAttendees.size();
+      TimeRange currTime = event.getWhen();
+      int evStart = currTime.start();
+      int evEnd = currTime.end();
+      int evDuration = currTime.duration();
+
+      // If there is only one event scheduled
+      if ((events.size() == 1) && (evStart != TimeRange.START_OF_DAY)
+          && (evDuration <= requiredDuration) 
+          && (numAttendees <= requiredNumAttendees)) {
+            TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evStart, false);
+            meetings.add(available);
+            available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
+            meetings.add(available);
+      }
+      // If an event is scheduled to begin at the start of the day, and it is the only event
+      else if ((evStart == TimeRange.START_OF_DAY) && (evDuration <= requiredDuration)
+          && (numAttendees <= requiredNumAttendees)) {
+            TimeRange available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
+            meetings.add(available);
+            available = currTime.fromStartEnd(evEnd + evDuration, TimeRange.END_OF_DAY, true);
+            meetings.add(available);
+      }
+      // The first event if the first two if conditions are not met (and if there are more events)
+      else if ((i < 1) && (evDuration <= requiredDuration) 
+          && (numAttendees <= requiredNumAttendees)) {
+            TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evStart, false);
+            meetings.add(available);
+            available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
+            meetings.add(available);
+      }
+      // After the first event (and if there are more events)
+      else if ((i >= 1 && i < events.size() - 1) && (evDuration <= requiredDuration) 
+          && (numAttendees <= requiredNumAttendees)) {
+            TimeRange available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
+            meetings.add(available);
+      }
+      i++;
+      
+      // Last event and it doesn't stop at the end of the day
+      if ((events.size() > 1) && (i == events.size()) && (evDuration <= requiredDuration)
+          && (numAttendees <= requiredNumAttendees)) {
+            TimeRange available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
+            meetings.add(available);
+      }
+    }
+
+    if ((meetings.isEmpty()) && (requiredDuration < TimeRange.WHOLE_DAY.duration())) {
+      meetings.add(TimeRange.WHOLE_DAY);
+    }
+    
+    // Sort the events by start time
+    ArrayList<TimeRange> options = new ArrayList<>(meetings);
+    Collections.sort(options, TimeRange.ORDER_BY_START);
+    return options;
   }
 }
