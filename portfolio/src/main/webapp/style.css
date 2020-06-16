@@ -15,18 +15,37 @@
   word-spacing: 3px;
 }
 
+#chart-container {
+  border: 15px;
+  border-style: groove;
+  display: none;
+  margin: 10px;
+  padding: 30px;
+  visibility: hidden;
+}
+
 #data-container {
   border: 15px;
   border-style: groove;
+  display: none;
   margin: 10px;
   padding: 30px;
   text-align: center;
   visibility: hidden;
 }
 
+#divider {
+  background-color: #ce0f3d;
+  color: #ce0f3d;
+  height: 15px;
+  list-style-type: none;
+  width: auto;
+}
+
 #fact-container {
   border: 15px;
   border-style: groove;
+  display: none;
   margin: 10px;
   padding: 30px;
   text-align: center;
@@ -41,13 +60,27 @@
 }
 
 #hiddentalent-container {
-  border: 15px;
-  border-style: groove;
+  display: none;
   margin-top: 20px;
   visibility: hidden;
 }
 
 #music {
+  display: none;
+  visibility: hidden;
+}
+
+#nba-data {
+  border: 15px;
+  border-style: groove;
+  display: none;
+  visibility: hidden;
+}
+
+#nba-player {
+  border: 15px;
+  border-style: groove;
+  display: none;
   visibility: hidden;
 }
 
@@ -73,6 +106,7 @@
   border: 15px;
   border-color: #666;
   border-style: groove;
+  display: none;
   width: 65%;
   visibility: hidden;
 }
@@ -84,6 +118,11 @@
   width: 65%;
 }
 
+#unauth {
+  display: none;
+  visibility: hidden;
+}
+
 /* Classes */
 
 .center {
@@ -91,6 +130,11 @@
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.requiresauth {
+  display: none;
+  visibility: hidden;
 }
 
 /* Main */

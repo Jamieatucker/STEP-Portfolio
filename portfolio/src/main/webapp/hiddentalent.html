@@ -3,47 +3,81 @@
   <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0">
-    <title>Hidden Talent</title>
+    <title>Hidden Talent - My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="manageVisibility()">
     <div id="content">
       <h1>My Hidden Talent</h1>
       <nav>
+        <a href="/login">Login Status</a>
         <a href="index.html">About Me</a>
         <a href="imagegallery.html">Image Gallery</a>
         <a href="hiddentalent.html">Hidden Talent</a>
+        <a href="nba.html">NBA</a>
         <a href="https://www.linkedin.com/in/jamieatucker/">LinkedIn</a>
         <a href="https://github.com/Jamieatucker">Github</a>
       </nav>
       <p>One hidden talent that I have not told is that I...</p>
       <button onclick="revealHiddenTalent()">Reveal</button>
-      <div id="hiddentalent-container"></div>
+      <div id="hiddentalent-container">
+        <p>Can create music mashups!<br><br>The inspiration came to me from listening to hundreds of music mashups on
+          YouTube. People were mashing vaporwave and hip hop together like it was peanut butter and  
+          jelly. They were mashing video game soundtracks and pop songs together like mash 
+          potatoes and gravy. I was entranced by the musical artistry.<br><br>I have a playlist of over 50 of my favorite music mashups. 
+          I created my first music mashup in late September 2018. I spent weeks using 
+          the program Audacity making sure it sounded as fluid as possible, with 
+          little training going into it. It may not have sounded the best, but I was thrilled 
+          to have created a mashup that I wanted, and had sounded coherent. The audio 
+          file below contains one of my mashups, 
+          called "Highest in the Woods Instrumental". Feel free to listen if you would like!
+      </div>
       <img src="/images/rollsafe.gif" alt="Roll Safe Dude Gif." class="center" id="rollsafe">
       <audio id="music" controls>
         <source src="/audio/Highest in the Woods Instrumental.wav">
         Your browser does not support the audio tag.
       </audio>
-      <form action="/data" method="POST">
-        <p><b>Want to Leave a Comment?</b>
-        <br/>
-        <label for="name">Name:</label>
-        <input type="text" name="name">
-        <br/>
-        <label for="email">Email:</label>
-        <input type="email" name="email">
-        <br/>
-        <label for="comment">Comment:</label>
-        <textarea name="comment"></textarea>
-        <br/><br/>
-        <input type="submit" />
+      <br>
+      <div class="g-ytsubscribe" data-channel="Silent Whisper" data-channelid="UC_GvF0ovvzKsKYWmWHRQN2A" data-layout="default" data-count="default"></div>
+      <hr id="divider">
+      <form class="requiresauth" action="/sports" method="POST">
+        <p class="requiresauth">What is Your Favorite Sport?
+        <br>
+        <select name="sport">
+          <option value="football">Football</option>
+          <option value="basketball">Basketball</option>
+          <option value="baseball">Baseball</option>
+          <option value="soccer">Soccer</option>
+          <option value="hockey">Hockey</option>
+          <option value="other">Other</option>
+        </select>
+        <button>Submit</button>
       </form>
+      <div class="requiresauth" id="chart-container"></div>
+      <p id="unauth">Click <a href="/login"> here</a> to login and see/post comments.
+      <p class="requiresauth"><b>Want to Leave a Comment?</b>
+      <br>
+      <label for="name">Name:</label>
+      <input id="username" type="text" name="name">
+      <br>
+      <label for="comment">Comment:</label>
+      <textarea id="comment" name="comment"></textarea>
+      <br><br>
+      <button onClick="submitComment()">Submit</button>
+      <p class="requiresauth"><b>How Many Comments Would You Like to See?</b>
+      <br><br>
+      <label for="numComments">Number of Comments:</label>
+      <input type="text" id="numComments" name="numComments" min="0">
+      <br>
       <button onclick="getDataUsingAsyncAwait()">See Comments</button>
       <button onclick="hideData()">Hide Comments</button>
-      <div id="data-container"></div>
+      <button id="delete-button" onclick="deleteDataUsingAsyncAwait()">Delete Comments</button>
+      <div id="data-container" class="requiresauth"></div>
       <footer>
-        <a href="imagegallery.html" id="pvpage"> Previous</a>No copyright infringement is intended.
+        <a href="imagegallery.html" id="pvpage"> Previous</a>No copyright infringement is intended. <a href="nba.html" id="nxpage"> Next </a>
       </footer>
     </div>
   </body>
