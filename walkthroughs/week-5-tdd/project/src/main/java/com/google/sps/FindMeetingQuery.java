@@ -14,8 +14,8 @@
 
 package com.google.sps;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,8 +27,8 @@ public final class FindMeetingQuery {
     // Find events that match the requested number of attendees and duration
     // and adds it to an ArrayList
     Set<TimeRange> meetings = new HashSet<>();
-    long requiredDuration = request.getDuration();
-    Collection<String> requiredAttendees = request.getAttendees();
+    final long requiredDuration = request.getDuration();
+    final Collection<String> requiredAttendees = request.getAttendees();
     int requiredNumAttendees = requiredAttendees.size();
     String[] requiredArr = new String[requiredNumAttendees];
     String requiredPerson = "";
@@ -37,7 +37,7 @@ public final class FindMeetingQuery {
       requiredPerson = requiredArr[0];
     }
 
-    // Convert the collection to an event array
+    // Convert the collection to an event array and keep its contents
     Event[] evArr = events.toArray(new Event[events.size()]);
     long timeLeft = TimeRange.WHOLE_DAY.duration();
     
