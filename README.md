@@ -18,8 +18,10 @@ This repo contains Jamie's portfolio and STEP projects. (5/18/20 - 8/7/20)
 
 # Week 4 Libraries (6/8/20 - 6/12/20)
 
--
+- Implemented three APIs into the portfolio (Authentication, Charts, NBA).
+- Revamped web pages to login in order to view comments, chart data, etc.
 
 # Week 5 Test Drive Development (6/15/20 - 6/19/20)
 
--
+- Created a query method that finds the available times a meeting can be organized.
+- Validated the method is working by utilizing JUnit testing.
