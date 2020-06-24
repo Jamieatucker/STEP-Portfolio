@@ -25,7 +25,7 @@ import java.util.Set;
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     // Find events that match the requested number of attendees and duration
-    // and adds it to an ArrayList
+    // and adds it to a set
     Set<TimeRange> meetings = new HashSet<>();
     final long requiredDuration = request.getDuration();
     final Collection<String> requiredAttendees = request.getAttendees();
@@ -67,74 +67,18 @@ public final class FindMeetingQuery {
       int evEnd = currTime.end();
       int evDuration = currTime.duration();
 
-      //////////////////////
-      // One Event + More //
-      //////////////////////
-
-      // If there is only one event scheduled and it doesn't stop at the end of the day
-      if ((events.size() == 1) && (evStart != TimeRange.START_OF_DAY)
-          && (evDuration == requiredDuration)
-          && (currPerson.equals(requiredPerson))) {
-            TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evStart, false);
-            meetings.add(available);
-            available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
-            meetings.add(available);
-            break;
+      // Find the times where a meeting can be planned
+      if (events.size() == 1) {
+        onlyOneEvent(events, event, currTime, meetings, evArr, requiredPerson, currPerson, requiredDuration);
       }
-      // If an event is scheduled to begin at the start of the day, and it is the only event
-      else if ((events.size() == 1) && (evStart == TimeRange.START_OF_DAY)
-          && (evArr[k - 1].getWhen().overlaps(evArr[k].getWhen()) == false)
-          && (evDuration == requiredDuration)
-          && (currPerson.equals(requiredPerson))) {
-            TimeRange available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
-            meetings.add(available);
-            break;
-      }
-      // If an event is scheduled to begin at the start of the day, and there is more than one event
-      else if ((evStart == TimeRange.START_OF_DAY)
-          && (currPerson.equals(requiredPerson))
-          && (evArr[k].getWhen().start() - evArr[k - 1].getWhen().end() == requiredDuration)) {
-            TimeRange available = currTime.fromStartEnd(evEnd, evArr[k].getWhen().start(), false);
-            meetings.add(available);
-      }
-      // If there is more than one event
-      else if ((i < 1) && (evDuration <= requiredDuration)
-          && (currPerson.equals(requiredPerson))) {
-            TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evStart, false);
-            meetings.add(available);
-            available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
-            meetings.add(available);
-      }
-      // After the first event (and if there are more events)
-      else if ((i >= 1 && i <= events.size() - 1)
-          && (evArr[k - 1].getWhen().overlaps(evArr[k].getWhen()) == false)
-          && (evDuration == requiredDuration)
-          && (currPerson.equals(requiredPerson))) {
-            TimeRange available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
-            meetings.add(available);
-      }
-
-      ////////////////////////
-      // Overlapping Events //
-      ////////////////////////
-
-      // If any of the events overlap with one another
-      if (events.size() > 1 && evArr[k - 1].getWhen().overlaps(evArr[k].getWhen()) == true) {
-        // If the first event's end time is before the second event's end time
-        if (evArr[k - 1].getWhen().end() <= evArr[k].getWhen().end()) {
-          TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evArr[k - 1].getWhen().start(), false);
-          meetings.add(available);
-          available = currTime.fromStartEnd(evArr[k].getWhen().end(), TimeRange.END_OF_DAY, true);
-          meetings.add(available);
-          break;
-        }
-        else {
-          TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evArr[k - 1].getWhen().start(), false);
-          meetings.add(available);
-          available = currTime.fromStartEnd(evArr[k - 1].getWhen().end(), TimeRange.END_OF_DAY, true);
-          meetings.add(available);
-          break;
-        }
+      else if (events.size() > 1) {
+        moreThanOneEvent(events, event, currTime, meetings, evArr, requiredPerson, currPerson, requiredDuration, i);
+        overlappingEvents(events, event, currTime, meetings, evArr, i);
+        
+        // Calculates the time left available in the day
+        TimeRange firstEvent = evArr[k - 1].getWhen();
+        TimeRange secondEvent = evArr[k].getWhen();
+        timeLeft = (TimeRange.WHOLE_DAY.duration() - (secondEvent.duration() + firstEvent.duration()));
       }
       
       // Will be used for the last event in the Set
@@ -142,27 +86,8 @@ public final class FindMeetingQuery {
         i++;
       }
 
-      // Calculates the time left available in the day
-      if (events.size() > 1) {
-        timeLeft = (TimeRange.WHOLE_DAY.duration() - (evArr[k].getWhen().duration() + evArr[k - 1].getWhen().duration()));
-      }
-
-      ////////////////
-      // Last Event //
-      ////////////////
-
-      // Last event and it doesn't stop at the end of the day
-      if ((events.size() > 1) && (i == events.size()) && (evEnd != TimeRange.END_OF_DAY)
-          && (evDuration == requiredDuration)) {
-            TimeRange available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
-            meetings.add(available);
-      }
-      // Last event and it stops at the end of the day
-      else if ((events.size() > 1) && (i == events.size()) && (evEnd == TimeRange.END_OF_DAY)
-          && (evDuration == requiredDuration)) {
-            TimeRange available = currTime.fromStartEnd(evArr[k - 1].getWhen().end(), evStart, true);
-            meetings.add(available);
-      }
+      // Last event in the TimeRange collection (if there is more than one)
+      lastEvent(events, event, currTime, requiredDuration, meetings, evArr, i);
     }
 
     // If there are no events planned or if the meeting request is longer than one day
@@ -175,5 +100,153 @@ public final class FindMeetingQuery {
     ArrayList<TimeRange> options = new ArrayList<>(meetings);
     Collections.sort(options, TimeRange.ORDER_BY_START);
     return options;
+  }
+
+  /**
+   * If there is only one event is the collection.
+   */
+  private void onlyOneEvent(Collection<Event> events, Event event, TimeRange currTime,
+      Set<TimeRange> meetings, Event[] evArr, String requiredPerson, String currPerson, long requiredDuration) {
+
+    // Get the time information
+    int evStart = currTime.start();
+    int evEnd = currTime.end();
+    int evDuration = currTime.duration();
+    
+    // If there is only one event scheduled and it doesn't stop at the end of the day
+    if ((events.size() == 1) && (evStart != TimeRange.START_OF_DAY)
+        && (evDuration == requiredDuration)
+        && (currPerson.equals(requiredPerson))) {
+          TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evStart, false);
+          meetings.add(available);
+          available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
+          meetings.add(available);
+    }
+    // If an event is scheduled to begin at the start of the day, and it is the only event
+    else if ((events.size() == 1) && (evStart == TimeRange.START_OF_DAY)
+        && (evDuration == requiredDuration)
+        && (currPerson.equals(requiredPerson))) {
+          TimeRange available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
+          meetings.add(available);
+    }
+  }
+
+  /**
+   * If there is more than one event in the collection.
+   */
+  private void moreThanOneEvent(Collection<Event> events, Event event, TimeRange currTime,
+      Set<TimeRange> meetings, Event[] evArr, String requiredPerson, String currPerson, long requiredDuration, int i) {
+    // Will be used in the conditionals
+    int k = 1;
+
+    // Get the time information
+    int evStart = currTime.start();
+    int evEnd = currTime.end();
+    int evDuration = currTime.duration();
+    TimeRange firstEvent = evArr[k - 1].getWhen();
+    TimeRange secondEvent = evArr[k].getWhen();
+    int firstEventStart = evArr[k - 1].getWhen().start();
+    int firstEventEnd = evArr[k - 1].getWhen().end();
+    int secondEventStart = evArr[k].getWhen().start();
+    int secondEventEnd = evArr[k].getWhen().end();
+
+    // If there is more than one event, and is scheduled to begin at the start of the day
+    if ((evStart == TimeRange.START_OF_DAY)
+        && (currPerson.equals(requiredPerson))
+        && (secondEventStart - firstEventEnd == requiredDuration)) {
+          TimeRange available = currTime.fromStartEnd(evEnd, secondEventStart, false);
+          meetings.add(available);
+    }
+    // If there is more than one event, and is not scheduled to begin at the start of the day
+    else if ((i < 1) && (evDuration <= requiredDuration)
+        && (currPerson.equals(requiredPerson))) {
+          TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, evStart, false);
+          meetings.add(available);
+          available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
+          meetings.add(available);
+    }
+    // After the first event (and if there are more events)
+    else if ((i >= 1 && i <= events.size() - 1)
+        && (!firstEvent.overlaps(secondEvent))
+        && (evDuration == requiredDuration)
+        && (currPerson.equals(requiredPerson))) {
+          TimeRange available = currTime.fromStartEnd(evEnd, evEnd + evDuration, false);
+          meetings.add(available);
+    }
+  }
+
+  /**
+   * If there are any overlapping events.
+   */
+  private void overlappingEvents(Collection<Event> events, Event event, TimeRange currTime,
+      Set<TimeRange> meetings, Event[] evArr, int i) {
+    // Will be used in the conditionals
+    int k = 1;
+
+    // Get the time information
+    int evStart = currTime.start();
+    int evEnd = currTime.end();
+    int evDuration = currTime.duration();
+    TimeRange firstEvent = evArr[k - 1].getWhen();
+    TimeRange secondEvent = evArr[k].getWhen();
+    int firstEventStart = evArr[k - 1].getWhen().start();
+    int firstEventEnd = evArr[k - 1].getWhen().end();
+    int secondEventStart = evArr[k].getWhen().start();
+    int secondEventEnd = evArr[k].getWhen().end();
+
+    // If any of the events overlap with one another
+    if (firstEvent.overlaps(secondEvent)) {
+      TimeRange available = currTime.fromStartEnd(TimeRange.START_OF_DAY, firstEventStart, false);
+      meetings.add(available);
+      
+      // If the first event's end time is before the second event's end time
+      if (firstEventEnd <= secondEventEnd) {
+        available = currTime.fromStartEnd(secondEventEnd, TimeRange.END_OF_DAY, true);
+        meetings.add(available);
+      }
+      else {
+        available = currTime.fromStartEnd(firstEventEnd, TimeRange.END_OF_DAY, true);
+        meetings.add(available);
+      }
+    }
+  }
+
+  /**
+   * If there is more than one event in the collection and it is the last event
+   */
+  private void lastEvent(Collection<Event> events, Event event, TimeRange currTime,
+      long requiredDuration, Set<TimeRange> meetings, Event[] evArr, int i) {
+    // Will be used in the conditionals
+    int k = 1;
+
+    // Get the time information
+    int evStart = currTime.start();
+    int evEnd = currTime.end();
+    int evDuration = currTime.duration();
+
+    if (events.size() > 1 && i == events.size()) {
+      TimeRange firstEvent = evArr[k - 1].getWhen();
+      TimeRange secondEvent = evArr[k].getWhen();
+      int firstEventStart = evArr[k - 1].getWhen().start();
+      int firstEventEnd = evArr[k - 1].getWhen().end();
+      int secondEventStart = evArr[k].getWhen().start();
+      int secondEventEnd = evArr[k].getWhen().end();
+
+      // Last event and it doesn't stop at the end of the day
+      if ((evEnd != TimeRange.END_OF_DAY)
+          && (!firstEvent.overlaps(secondEvent))
+          && (evDuration == requiredDuration)) {
+            TimeRange available = currTime.fromStartEnd(evEnd, TimeRange.END_OF_DAY, true);
+            meetings.add(available);
+      }
+      // Last event and it stops at the end of the day
+      else if ((evEnd == TimeRange.END_OF_DAY)
+          && (!firstEvent.overlaps(secondEvent))
+          && (evDuration == requiredDuration)) {
+
+            TimeRange available = currTime.fromStartEnd(firstEventEnd, evStart, true);
+            meetings.add(available);
+      }
+    }
   }
 }
