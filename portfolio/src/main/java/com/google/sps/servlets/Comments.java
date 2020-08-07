@@ -67,7 +67,7 @@ public class Comments extends HttpServlet {
 
     // Delete all the comments in the datastore admin page
     for(Entity entity : results.asIterable()){
-      datastore.delete(entity.getKey());
+      //datastore.delete(entity.getKey());
     }
   }
 
