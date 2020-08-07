@@ -65,7 +65,7 @@ public class Comments extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    // Delete all the comments in the datastore admin page
+    // Delete all the comments in the datastore admin page and on the website
     for(Entity entity : results.asIterable()){
       datastore.delete(entity.getKey());
     }
