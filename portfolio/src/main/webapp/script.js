@@ -38,7 +38,7 @@ function addRandomFact() {
   let fact = facts[Math.floor(Math.random() * facts.length)];
 
   // Add it to the page
-  const factContainer = document.querySelector('#fact-container')
+  const factContainer = document.querySelector('#fact-container');
   factContainer.style.visibility = 'visible';
   factContainer.style.display = 'block';
   factContainer.innerText = fact;

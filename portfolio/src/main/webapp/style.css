@@ -1,3 +1,25 @@
+/* Animated Background */
+
+@keyframes background {
+  from {background-position: 0 0;}
+  to {background-position: 0 100%;}
+}
+
+@keyframes shape-movement {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(60vh) rotate(360deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(120vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
 /* IDs */
 
 #content {
@@ -145,8 +167,13 @@ audio {
 }
 
 body {
+  animation-name: background;
+  animation-duration: 50s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
   background-color: #ce0f3d;
   background-image: url(/images/osubackground.jpg);
+  background-repeat: repeat;
 }
 
 figure {
