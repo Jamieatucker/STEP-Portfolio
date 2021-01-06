@@ -87,6 +87,11 @@
   visibility: hidden;
 }
 
+#listheader {
+  font-size: 25px;
+  padding-bottom: 17px;
+}
+
 #music {
   display: none;
   visibility: hidden;
