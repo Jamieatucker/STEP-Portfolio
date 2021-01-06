@@ -1,3 +1,7 @@
 target/
 .idea
 /.project
+.settings/
+.project
+.factorypath
+.classpath
