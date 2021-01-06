@@ -14,15 +14,9 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +45,20 @@ public class Login extends HttpServlet {
     } else {
       url = userService.createLoginURL(redirect);
     }
+    // Generate the login page
+    createLoginPage(response, userEmail, redirect, status, url);
+  }
+
+  private static void createLoginPage(HttpServletResponse response, String userEmail, String redirect, String status, String url) throws IOException {
+    
     response.getWriter().println("<link rel=\"stylesheet\" href=\"style.css\">");
+    response.getWriter().println("<!-- Favicons -->");
+    response.getWriter().println("<link rel=\"apple-touch-icon\" href=\"favicons/apple-touch-icon.png\" sizes=\"180x180\">");
+    response.getWriter().println("<link rel=\"icon\" href=\"favicons/favicon-32x32.png\" sizes=\"32x32\">");
+    response.getWriter().println("<link rel=\"icon\" href=\"favicons/favicon-16x16.png\" sizes=\"16x16\">");
+    response.getWriter().println("<link rel=\"icon\" href=\"favicons/android-chrome-512x512.png\" sizes=\"512x512\">");
+    response.getWriter().println("<link rel=\"icon\" href=\"favicons/android-chrome-192x192.png\" sizes=\"192x192\">");
+    response.getWriter().println("<link rel=\"icon\" href=\"favicons/favicon.ico\">");
     response.getWriter().println("<div id=\"content\">");
     response.getWriter().println("<p>Hello " + userEmail + "!</p>");
     response.getWriter().println("<p>Click <a href=\"" + redirect + "\">here</a> to view the site or " + 
