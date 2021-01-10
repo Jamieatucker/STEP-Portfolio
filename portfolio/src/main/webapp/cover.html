@@ -6,6 +6,8 @@
     <title>Cover - My Portfolio</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- Standard CSS -->
+    <link rel="stylesheet" href="cover.css">
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" href="favicons/favicon-32x32.png" sizes="32x32">
@@ -16,10 +18,10 @@
     <script src="script.js"></script>
   </head>
   <body class="d-flex h-100 text-center">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column bg-secondary">
-      <header class="mb-auto bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-0 mx-auto flex-column osu-gray">
+      <header class="px-3 mb-auto border">
         <div>
-          <h3 class="float-md-start mb-0 text-white">Cover</h3>
+          <h3 class="float-md-start mb-0 text-white">Portfolio Cover</h3>
           <nav class="nav nav-masthead justify-content-center float-md-end">
             <a class="nav-link" href="/login">Login Status</a>
             <a class="nav-link" href="index.html">About Me</a>
@@ -30,13 +32,13 @@
         </div>
       </header>
       <main class="px-3">
-        <h1 class="text-white">Welcome to Jamie Tucker's Portfolio.</h1>
-        <p class="lead">This portfolio contains information about me Jamie Tucker and showcases my technical skills. Click the button below to view the site.</p>
+        <h1 class="text-white p-4" id="welcome">Welcome to Jamie Tucker's Portfolio.</h1>
+        <p class="lead text-white">This portfolio contains information about me and showcases my technical skills. Click the button below to view the site.</p>
         <p class="lead">
           <a href="index.html" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Begin Viewing</a>
         </p>
       </main>
-      <footer class="mt-auto text-white-50 bg-dark">
+      <footer class="mt-auto text-white border" id="foot">
         <p>No copyright infringement is intended.</p>
       </footer>  
     </div>

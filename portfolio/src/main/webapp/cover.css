@@ -1,0 +1,41 @@
+/* Classes */
+
+.border {
+  background-color: #ce0f3d;
+  color: #fff;
+}
+
+.osu-gray {
+  background-color: #666;
+}
+
+/* IDs */
+
+#foot {
+  font-style: italic;
+  margin-top: .5rem;
+}
+
+#welcome {
+  text-shadow: 4px 3px 4px #ce0f3d;
+}
+
+/* Links */
+
+a:active {
+  background-color: #ce0f3d;
+  text-decoration: underline;
+}
+
+a:hover {
+  background-color: #8d0a29;
+  text-decoration: underline;
+}
+
+a:link {
+  color: #fff;
+}
+
+a:visited {
+  color: #fff;
+}
