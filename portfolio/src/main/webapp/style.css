@@ -75,6 +75,11 @@
   visibility: hidden;
 }
 
+#github {
+  margin-bottom: -35px;
+  width: 11%;
+}
+
 #headshot {
   border: 15px;
   border-color: #666;
@@ -88,6 +93,11 @@
   visibility: hidden;
 }
 
+#linkedin {
+  margin-bottom: -35px;
+  width: 15%;
+}
+
 #listheader {
   font-size: 25px;
   padding-bottom: 17px;
@@ -96,6 +106,10 @@
 #music {
   display: none;
   visibility: hidden;
+}
+
+#navbutton {
+  margin-right: 10px;
 }
 
 #nba-data {
@@ -234,18 +248,30 @@ ul {
   list-style-type: none;
   margin-left: 10px;
   margin-right: 10px;
+  padding: 30px;
+}
+
+ul.nav {
+  padding: 0;
 }
 
 /* Links */
 
-a:active {
+ul.nav a:active {
   background-color: #ce0f3d;
+  text-decoration: underline;
 }
 
-a:visited {
+ul.nav a:hover {
+  background-color: #8d0a29;
+  color: #ddd !important;
+  text-decoration: underline;
+}
+
+ul.nav a:link {
   color: #fff;
 }
 
-a:hover {
-  background-color: #8d0a29;
+ul.nav a:visited {
+  color: #fff;
 }

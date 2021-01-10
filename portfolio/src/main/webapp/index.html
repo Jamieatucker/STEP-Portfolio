@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0">
     <title>About Jamie Tucker - My Portfolio</title>
+    <!-- Standard CSS -->
     <link rel="stylesheet" href="style.css">
-    <!-- link needed for BootStrap -->
+    <!-- BootStrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" sizes="180x180">
@@ -14,27 +15,55 @@
     <link rel="icon" href="favicons/android-chrome-512x512.png" sizes=512x512>
     <link rel="icon" href="favicons/android-chrome-192x192.png" sizes=192x192>
     <link rel="icon" href="favicons/favicon.ico">
+    <!-- Google Chart JavaScript -->
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Standard JavaScript -->
     <script src="script.js"></script>
+    <!-- BootStrap JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
     <body onload="manageVisibility()">
       <div id="content">
         <h1 class="center">Jamie Tucker's Portfolio</h1>
-        <nav>
-          <a href="/login">Login Status</a>
-          <a href="index.html">About Me</a>
-          <a href="imagegallery.html">Image Gallery</a>
-          <a href="hiddentalent.html">Hidden Talent</a>
-          <a href="nba.html">NBA</a>
-          <a href="https://www.linkedin.com/in/jamieatucker/">LinkedIn</a>
-          <a href="https://github.com/Jamieatucker">Github</a>
+        <nav class="navbar navbar-dark">
+          <!-- Brand -->
+          <a class="navbar-brand" href="#" style="margin-left: 1rem; margin-bottom: -.3rem">Pages</a>
+          <!-- Toggler/collapsible Button -->
+          <button class="navbar-toggler" id="navbutton" data-toggle="collapse" data-target="#collapsiblePages" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Navbar links -->
+          <div class="collapse navbar-collapse" id="collapsiblePages" style="margin-top: 1rem">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link" href="cover.html">Cover</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="index.html">About Me</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="imagegallery.html">Image Gallery</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="hiddentalent.html">Hidden Talent</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="nba.html">NBA</a>
+              </li>
+            </ul>
+          </div>
         </nav>
+        <!-- Original Content Starts Here -->
         <img src="/images/My Headshot.jpeg" alt="A Picture of Jamie Tucker." class="center" id="headshot">
-        <p>Hello! My name is Jamie Tucker (Pronouns: he/him/his) and I am a Sophomore at The Ohio State University.
+        <p>Hello! My name is Jamie Tucker (Pronouns: he/him/his) and I'm a Sophomore at The Ohio State University.
           I'm currently majoring in Computer Science Engineering, 
-          learning the necessary skills to become a software engineer.
-        <p>I've been coding since middle school, starting with drag and drop
-          programs such as Scratch.<br><br>
+          learning the necessary skills to become a software engineer.<br>
+          <a href="https://www.linkedin.com/in/jamieatucker/"><img src="/images/linkedin.png" id="linkedin"></a>
+          <a href="https://github.com/Jamieatucker"><img src="/images/github.png" id="github"></a><br><br>
+          <p>I've been coding since middle school, starting with drag and drop
+          programs such as Scratch.
           As I got older, I experimented with other coding websites, such as Khan Academy and Codecademy,
           to learn the basics of Java.<br><br>
           During my Junior year of high school, I enrolled into a tech campus called Oakland Schools Technical Campus (OSTC),
@@ -43,14 +72,14 @@
           their interactive engagement, fun projects, and overall supportive staff.
         <ul>
           <li id="listheader">Below are a few projects that I've built:
-          <li><i></i>Pacific Trails Resort Website (OSTC, September 2017)
+          <li><i>Pacific Trails Resort Website (OSTC, September 2017)
           <li>Pokemon Battle Simulator (OSTC, May 2018)
           <li>Stickman: On The Run Video Game (Freelance Camp, August 2018)
           <li>Financial Literacy Simulator (OSU Hackathon, November 2019)
           <li>Text-Based Hangman (Personal Project, May 2020)</i>
         </ul>
         <img src="/images/mysportsphoto.jpg" alt="A Picture of Jamie Tucker with Two of his Friends at an Ohio State Football Game." class="center" id="sportphoto">
-        <p>When I'm not coding, I love to watch sports, exercise at the gym, and play video games.
+        <p>When I'm not coding, I love to watch sports, exercise at the gym, and play video games.<br><br>
           I specifically love watching football and basketball (whether its college or professional).
           Whenever the big game is on, I'm glued to the TV, watching all of the glorious action taking place.
           My favorite sports teams are the Detroit Lions, Portland Trail Blazers, 
@@ -76,7 +105,7 @@
           <button>Submit</button>
         </form>
         <div class="requiresauth" id="chart-container"></div>
-        <p id="unauth">Click <a href="/login"> here</a> to login and see/post comments. 
+        <p id="unauth">Please <a href="/login">login</a></button> to see and post comments. 
         <p class="requiresauth"><b>Want to Leave a Comment?</b>
         <br>
         <label for="name">Name:</label>
