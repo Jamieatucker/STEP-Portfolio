@@ -27,15 +27,37 @@
   <body onload="manageVisibility()">
     <div id="content">
       <h1>My Hidden Talent</h1>
-      <nav>
-        <a href="/login">Login Status</a>
-        <a href="index.html">About Me</a>
-        <a href="imagegallery.html">Image Gallery</a>
-        <a href="hiddentalent.html">Hidden Talent</a>
-        <a href="nba.html">NBA</a>
-        <a href="https://www.linkedin.com/in/jamieatucker/">LinkedIn</a>
-        <a href="https://github.com/Jamieatucker">Github</a>
-      </nav>
+      <nav class="navbar navbar-dark">
+          <!-- Brand -->
+          <a class="navbar-brand" href="#" style="margin-left: 1rem; margin-bottom: -.3rem">Pages</a>
+          <!-- Toggler/collapsible Button -->
+          <button class="navbar-toggler" id="navbutton" data-toggle="collapse" data-target="#collapsiblePages" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Navbar links -->
+          <div class="collapse navbar-collapse" id="collapsiblePages" style="margin-top: 1rem">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Status</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="cover.html">Cover</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">About Me</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="imagegallery.html">Image Gallery</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="hiddentalent.html" style="text-decoration: underline">Hidden Talent</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="nba.html">NBA</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
       <p>One hidden talent that I have not told is that I...</p>
       <button onclick="revealHiddenTalent()">Reveal</button>
       <div id="hiddentalent-container">
